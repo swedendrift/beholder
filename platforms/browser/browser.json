@@ -1,0 +1,27 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.swedendrift.beholder"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.swedendrift.beholder"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.swedendrift.beholder"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [],
+    "plugin_metadata": {
+        "cordova-plugin-whitelist": "1.3.1",
+        "cordova-plugin-compat": "1.1.0",
+        "cordova-plugin-geolocation": "2.4.1"
+    }
+}

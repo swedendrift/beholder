@@ -1,0 +1,35 @@
+{
+  "name": "beholder",
+  "version": "1.0.0",
+  "description": "The purpose of this application is to give parents access to their child's location",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swedendrift/beholder.git"
+  },
+  "keywords": [
+    "geolocation",
+    "cordova",
+    "node.js",
+    "express.js",
+    "mongodb"
+  ],
+  "author": "Erick Lee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swedendrift/beholder/issues"
+  },
+  "homepage": "https://github.com/swedendrift/beholder#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.20",
+    "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
