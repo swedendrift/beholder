@@ -11,3 +11,7 @@ node_modules
 
 # Images and Assets
 imgs
+
+# Cordova files
+plugins/
+platforms/
