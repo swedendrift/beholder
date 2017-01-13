@@ -7,10 +7,11 @@ const fs = require('fs')
 const app = express()
 const jsonParser = bodyParser.json()
 const PORT = process.env.PORT || 6969
+const MONGO = 'mongodb://localhost:27017/beholder'
 
 const logpath = path.join(__dirname, './server.log')
 const accessLogStream = fs.createWriteStream(logpath, {flags: 'a'})
-app.use(logger('dev', {stream: accessLogStream}));
+app.use(logger('combined', {stream: accessLogStream}));
 app.use(bodyParser.urlencoded({extended: false}));
 
 const staticPath = path.join(__dirname, '/public')
@@ -20,7 +21,7 @@ app.get('/coords', (req, res) => {
 
   const {MongoClient} = require('mongodb')
 
-  MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
+  MongoClient.connect(MONGO, (error, db) => {
       if (error) {
         console.log('Unable to connect to MongoDB server')
       } else {
@@ -37,7 +38,7 @@ app.get('/coords', (req, res) => {
 
 app.post('/coords', jsonParser, (req, res) => {
   const data = req.body
-  MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
+  MongoClient.connect(MONGO, (error, db) => {
       if (error) {
         console.log('Unable to connect to MongoDB server')
       } else {

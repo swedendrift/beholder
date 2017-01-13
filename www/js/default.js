@@ -2,32 +2,23 @@ var app = {
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     },
-    onDeviceReady: function() {
+    onDeviceReady: () => {
         this.receivedEvent('deviceready');
     },
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        console.log('Received Event: ' + id);
+    receivedEvent: (id) => {
+        document.getElementById(id).innerText = `Received Event: $${event}`
     }
-};
-
-
-function Geoloc(position) {
-  this.lat = position.coords.lattoFixed(6)
-  this.lng = position.coords.lngtoFixed(6)
-  this.heading = position.coords.heading
-  this.speed = position.coords.speed
 }
 
-function getLocation() {
-  // how can i get a return value from this - just run the variable() to execute
-  navigator.geolocation.watchPosition(onGeoSuccess, onGeoError, { enableHighAccuracy: true });
-}
-
-var onGeoSuccess = function (position) {
-  var currentLoc = new Geoloc(position)
+var onGeoSuccess = function (geoposition) {
+  var currentLoc = {
+    lat: geoposition.coords.latitude,
+    lng: geoposition.coords.longitude,
+    speed: geoposition.coords.speed,
+    heading: geoposition.coords.heading
+  }
+  console.log(currentLoc)
   postData(currentLoc)
-
 }
 
 function postData(locationObject) {
@@ -41,17 +32,22 @@ function postData(locationObject) {
     body: newLoc
   })
   fetch(request).then((data) => {
-    console.log(`successORfail: ${data}`)
+    return data
   })
 }
 
 function onGeoError(error) {
-    console.log(`code: ${error.code} \n`
-        `message: ${error.message} \n`);
+    alert(`code: ${error.code} message: ${error.message} \n`)
 }
 
 app.initialize();
-document.addEventListener("deviceready", getLocation, false)
 
+// document.addEventListener("deviceready", () => {
+//   navigator.geolocation.watchPosition(onGeoSuccess, onGeoError, { enableHighAccuracy: true })
+//   , false
+// })
 
-document.getElementById("get-position").addEventListener("click", getLocation, false);
+document.getElementById("get-position").addEventListener("click", () => {
+  navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError, { enableHighAccuracy: true })
+  , false
+})

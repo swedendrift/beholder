@@ -1,62 +1,36 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.swedendrift.beholder" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Beholder</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event.
-    </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
-    </author>
-    <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <plugin name="cordova-plugin-geolocation" spec="~2.4.1">
-    <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
+  <name>Beholder</name>
+  <description>
+      A sample Apache Cordova application that responds to the deviceready event.
+  </description>
+  <author email="dev@cordova.apache.org" href="http://cordova.io">
+      Apache Cordova Team
+  </author>
+  <content src="index.html" />
+  <plugin name="cordova-plugin-whitelist" spec="1" />
+  <plugin name="cordova-plugin-geolocation" spec="~2.4.1">
+  <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
 </plugin>
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <!-- <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" /> -->
-    <allow-intent href="geo:*" />
-    <!-- <platform name="android">
-        <allow-intent href="market:*" />
-    </platform> -->
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
-    </platform>
-    <engine name="ios" spec="~4.3.1" />
-    <engine name="browser" spec="~4.1.0" />
-    <gap:config-file overwrite="true" parent="UIBackgroundModes" platform="ios">
-        <array>
-            <string>location</string>
-        </array>
-    </gap:config-file>
-    <icon src="res/ios/icon-60@3x.png" width="180" height="180" />
-       <!-- iOS 7.0+ -->
-       <!-- iPhone / iPod Touch  -->
-       <icon src="res/ios/icon-60.png" width="60" height="60" />
-       <icon src="res/ios/icon-60@2x.png" width="120" height="120" />
-       <!-- iPad -->
-       <icon src="res/ios/icon-76.png" width="76" height="76" />
-       <icon src="res/ios/icon-76@2x.png" width="152" height="152" />
-       <!-- Spotlight Icon -->
-       <icon src="res/ios/icon-40.png" width="40" height="40" />
-       <icon src="res/ios/icon-40@2x.png" width="80" height="80" />
-       <!-- iOS 6.1 -->
-       <!-- iPhone / iPod Touch -->
-       <icon src="res/ios/icon.png" width="57" height="57" />
-       <icon src="res/ios/icon@2x.png" width="114" height="114" />
-       <!-- iPad -->
-       <icon src="res/ios/icon-72.png" width="72" height="72" />
-       <icon src="res/ios/icon-72@2x.png" width="144" height="144" />
-       <!-- iPhone Spotlight and Settings Icon -->
-       <icon src="res/ios/icon-small.png" width="29" height="29" />
-       <icon src="res/ios/icon-small@2x.png" width="58" height="58" />
-       <!-- iPad Spotlight and Settings Icon -->
-       <icon src="res/ios/icon-50.png" width="50" height="50" />
-       <icon src="res/ios/icon-50@2x.png" width="100" height="100" />
-       <!-- iPad Pro -->
-       <icon src="res/ios/icon-83.5@2x.png" width="167" height="167" />
+  <access origin="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <!-- <allow-intent href="tel:*" />
+  <allow-intent href="sms:*" />
+  <allow-intent href="mailto:*" /> -->
+  <allow-intent href="geo:*" />
+  <!-- <platform name="android">
+      <allow-intent href="market:*" />
+  </platform> -->
+  <platform name="ios">
+      <allow-intent href="itms:*" />
+      <allow-intent href="itms-apps:*" />
+  </platform>
+  <engine name="ios" spec="~4.3.1" />
+  <engine name="browser" spec="~4.1.0" />
+  <gap:config-file overwrite="true" parent="UIBackgroundModes" platform="ios">
+      <array>
+          <string>location</string>
+      </array>
+  </gap:config-file>
 </widget>

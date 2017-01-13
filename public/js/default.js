@@ -11,8 +11,8 @@ function search() {
 function initMap() {
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 3,
-    center: {lat: 33.651, lng: -117.888}
+    zoom: 6,
+    center: {lat: 33.651000, lng: -117.888000}
   });
 
   var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
