@@ -9,7 +9,7 @@ const jsonParser = bodyParser.json()
 const PORT = process.env.PORT || 6969
 
 const logpath = path.join(__dirname, './server.log')
-var accessLogStream = fs.createWriteStream(logpath, {flags: 'a'})
+const accessLogStream = fs.createWriteStream(logpath, {flags: 'a'})
 app.use(logger('dev', {stream: accessLogStream}));
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -22,9 +22,9 @@ app.get('/coords', (req, res) => {
 
   MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
       if (error) {
-          console.log('Unable to connect to MongoDB server')
+        console.log('Unable to connect to MongoDB server')
       } else {
-        console.log('Connected to MongoDB server')
+        console.log('Connected to the MongoDB server')
       }
       db.collection('geolocation-data').find().toArray().then((docs) => {
         res.send(docs)
@@ -34,15 +34,15 @@ app.get('/coords', (req, res) => {
       db.close()
   })
 })
+
 app.post('/coords', jsonParser, (req, res) => {
   const data = req.body
   MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
       if (error) {
         console.log('Unable to connect to MongoDB server')
       } else {
-      console.log('Connected to MongoDB server')
+        console.log('Connected to the MongoDB server')
       }
-
       db.collection('geolocation-data').insertOne(data, (error, result) => {
           if (error) {
               return console.log('Unable to insert data', error)

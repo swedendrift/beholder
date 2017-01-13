@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>beholder</title>
-    <link rel="stylesheet" type="text/css" href="css/default.css">
+    <title>Marker Clustering</title>
+    <link rel="stylesheet" href="css/default.css">
   </head>
   <body>
-    <div>
-      <img id="beholder" src="../public/imgs/beholder-animated-200.gif" alt="Animated Logo" />
-    </div>
-    <div>
-      <button id="get-position" value="Find my kid">Where is my kid!</button>
-    </div>
+    <button id="get-position" value="Find my kid">Where is my kid!</button>
     <div id="map"></div>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8kjmQJSIFArR2oGJQeN0fyEdY320Y8dM&callback=initMap">
     <script src="js/default.js"></script>
     <script src="js/markerclusterer.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8kjmQJSIFArR2oGJQeN0fyEdY320Y8dM&callback=initMap">
+    </script>
   </body>
 </html>

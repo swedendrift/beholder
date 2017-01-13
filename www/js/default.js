@@ -13,13 +13,14 @@ var app = {
 
 
 function Geoloc(position) {
-  this.latitude = position.coords.latitude
-  this.longitude = position.coords.longitude
+  this.lat = position.coords.lattoFixed(6)
+  this.lng = position.coords.lngtoFixed(6)
   this.heading = position.coords.heading
   this.speed = position.coords.speed
 }
 
 function getLocation() {
+  // how can i get a return value from this - just run the variable() to execute
   navigator.geolocation.watchPosition(onGeoSuccess, onGeoError, { enableHighAccuracy: true });
 }
 
