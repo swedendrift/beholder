@@ -9,10 +9,9 @@ function search() {
 }
 
 function initMap() {
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 6,
-    center: {lat: 33.651000, lng: -117.888000}
+  var map = new google.maps.Map(document.getElementById('googleMap'), {
+    zoom: 8,
+    center: {lat: 33.651, lng: -117.888}
   });
 
   var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -26,9 +25,28 @@ function initMap() {
 
   var markerCluster = new MarkerClusterer(map, markers,
       {imagePath: 'imgs/m'});
+  geoObjects = []
+
+  var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: ['circle', 'polygon', 'polyline', 'rectangle']
+    },
+    circleOptions: {
+      fillColor: 'red',
+      fillOpacity: .2,
+      strokeWeight: .5,
+      clickable: false,
+      editable: true,
+      zIndex: 1
+    }
+  });
+  drawingManager.setMap(map);
 }
 
-const geoObjects = []
+var geoObjects = []
 const plots = []
 
 function prepCoords(geoArray) {
@@ -42,16 +60,12 @@ function prepCoords(geoArray) {
         _id: geoArray[i]._id
       }
       plots.push(plot)
-      console.log(plot)
       const {lat, lng} = plot
       const latLng = {lat, lng}
       geoObjects.push(latLng)
     } else { continue }
   }
-  console.log(geoObjects)
-  console.log(plots)
   initMap()
-
 }
 
 document.getElementById("get-position").addEventListener("click", () => {
