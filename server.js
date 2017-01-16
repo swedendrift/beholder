@@ -21,7 +21,7 @@ app.get('/coords', (req, res) => {
 
   const {MongoClient} = require('mongodb')
 
-  MongoClient.connect(MONGO, (error, db) => {
+  MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
       if (error) {
         console.log('Unable to connect to MongoDB server')
       } else {
@@ -29,10 +29,10 @@ app.get('/coords', (req, res) => {
       }
       db.collection('geolocation-data').find().toArray().then((docs) => {
         res.send(docs)
+        db.close()
       }, (error) => {
         console.log('Unable to fetch data', error)
       })
-      db.close()
   })
 })
 
@@ -49,8 +49,9 @@ app.post('/coords', jsonParser, (req, res) => {
               return console.log('Unable to insert data', error)
           }
           console.log(result.ops)
+          db.close()
       })
-      db.close()
+
   })
   res.sendStatus(201)
 })
