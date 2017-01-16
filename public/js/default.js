@@ -1,6 +1,7 @@
+const DEV_NODE = '192.168.1.178'
 // Add an #id property to getData to identify the user eventually
 function search() {
-  const url = 'http://localhost:6969/coords'
+  const url = `http://${DEV_NODE}:6969/coords`
   return fetch(url).then((response) => {
     return response.json()
   }).catch(function(error) {
@@ -10,8 +11,8 @@ function search() {
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('googleMap'), {
-    zoom: 8,
-    center: {lat: 33.651, lng: -117.888}
+    zoom: 10,
+    center: {lat: 37.2966853, lng: -122.0975973}
   });
 
   var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -32,7 +33,7 @@ function initMap() {
     drawingControl: true,
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: ['circle', 'polygon', 'polyline', 'rectangle']
+      drawingModes: ['circle', 'polygon']
     },
     circleOptions: {
       fillColor: 'red',
@@ -41,7 +42,16 @@ function initMap() {
       clickable: false,
       editable: true,
       zIndex: 1
+    },
+    polygonOptions: {
+      fillColor: 'red',
+      fillOpacity: .2,
+      strokeWeight: .5,
+      clickable: true,
+      editable: true,
+      zIndex: 1
     }
+
   });
   drawingManager.setMap(map);
 }

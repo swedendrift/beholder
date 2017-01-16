@@ -1,3 +1,5 @@
+const DEV_NODE = '192.168.1.178'
+
 var app = {
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -24,7 +26,7 @@ var onGeoSuccess = function (position) {
 }
 
 function postData(locationObject) {
-  const url = 'http://192.168.0.11:6969/coords'
+  const url = `http://${DEV_NODE}:6969/coords`
   fetch(url, {
     method: "POST",
     body: JSON.stringify(locationObject),
