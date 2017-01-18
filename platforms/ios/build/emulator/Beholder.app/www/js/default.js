@@ -4,29 +4,29 @@ var app = {
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     },
-    onDeviceReady: () => {
+    onDeviceReady: function() {
         this.receivedEvent('deviceready');
     },
-    receivedEvent: (id) => {
-        document.getElementById(id).innerText = `Received Event: $${event}`
+    receivedEvent: function(id) {
+        document.getElementById(id).innerText = `Received Event: ${event}`
     }
 }
 
 var onGeoSuccess = function (position) {
   var currentLoc = {
+    // conver to geojson
     lat: position.coords.latitude,
     lng: position.coords.longitude,
     speed: position.coords.speed,
     heading: position.coords.heading
   }
-  console.log(currentLoc)
 // both ios and browser return valid data here {lat: 33.6685617, lng: -117.86363739999999, speed: null, heading: null}
 // FETCH is not supported in ios or safari - need to read on CORS too
-  postData(currentLoc)
+  postData(currentLoc, 'coords')
 }
 
-function postData(locationObject) {
-  const url = `http://${DEV_NODE}:6969/coords`
+function postData(locationObject, route) {
+  const url = `http://${DEV_NODE}:6969/${route}`
   fetch(url, {
     method: "POST",
     body: JSON.stringify(locationObject),
@@ -35,13 +35,13 @@ function postData(locationObject) {
     },
     credentials: "omit"
   }).then(function(response) {
-    response.status     //=> number 100–599
-    response.statusText //=> String
-    response.headers    //=> Headers
-    response.url        //=> String
+    response.status
+    response.statusText
+    response.headers
+    response.url
     return response.text()
   }, function(error) {
-    error.message //=> String
+    error.message
   })
 }
 
@@ -50,13 +50,15 @@ function onGeoError(error) {
 }
 
 app.initialize();
-
-// document.addEventListener("deviceready", () => {
-//   navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError, { enableHighAccuracy: true })
-//   , false
-// })
+var watchId
 
 document.getElementById("get-position").addEventListener("click", () => {
-  navigator.geolocation.watchPosition(onGeoSuccess, onGeoError, { enableHighAccuracy: true })
-  , false
-})
+  watchId = navigator.geolocation.watchPosition(onGeoSuccess, onGeoError,
+    { enableHighAccuracy: true })
+  }, false)
+
+
+document.getElementById("clear-watch").addEventListener("click", () => {
+  navigator.geolocation.clearWatch(watchId)
+  console.log(`Cleared watch on watchId: ${watchId}`)
+}, false)

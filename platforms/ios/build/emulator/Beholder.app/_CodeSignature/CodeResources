@@ -86,7 +86,7 @@
 		</data>
 		<key>CDVLaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		b4qmnvUSQJXzWifr41YnC0J7NTA=
+		SDmy0H6ZbdRYgfZdxPFom8iwWm8=
 		</data>
 		<key>CDVLaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -94,7 +94,7 @@
 		</data>
 		<key>CDVLaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		fU53eBhPp+bvXaexInZ2RS8sSIY=
+		l00peQA6+xjIN6mo2jpd+0wTR18=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -158,7 +158,7 @@
 		</data>
 		<key>MainViewController.nib</key>
 		<data>
-		BM3GRy/uwpGibzB3EI5NpDT+lHA=
+		kr+PdXDpXfY8hQxUrRd/i2njeEU=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -262,11 +262,11 @@
 		</data>
 		<key>www/index.html</key>
 		<data>
-		x1JlPKCFV68xb//M6rEC5hy60Qg=
+		0LyTme2aoSttu6HcZqr0XFKDH1w=
 		</data>
 		<key>www/js/default.js</key>
 		<data>
-		ApfZT3ZNBtQyz63aU6Hm3Ldk8N0=
+		m6P58bKlJPCHRFWAmlK2KDtT/TI=
 		</data>
 		<key>www/js/fetchPolyfill.js</key>
 		<data>
@@ -515,11 +515,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			b4qmnvUSQJXzWifr41YnC0J7NTA=
+			SDmy0H6ZbdRYgfZdxPFom8iwWm8=
 			</data>
 			<key>hash2</key>
 			<data>
-			le0ZL9P+Jbe3IQSbocs7Uk7DrirY4mCX5Pi+E6hpPcs=
+			ee0BVgQs291t58Eci1d72vWjjjdh0LgJb48NPsgzM2w=
 			</data>
 		</dict>
 		<key>CDVLaunchScreen.storyboardc/Info.plist</key>
@@ -537,11 +537,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			fU53eBhPp+bvXaexInZ2RS8sSIY=
+			l00peQA6+xjIN6mo2jpd+0wTR18=
 			</data>
 			<key>hash2</key>
 			<data>
-			tVMc28QVv+fgQ6n0LsAVvb3VKJkfIYfOiDm/kuGp0mk=
+			3JJbrf90yUk8Z4sgrrkGoqvVZts1hEGwoOAaW11B1rY=
 			</data>
 		</dict>
 		<key>LaunchImage-568h@2x.png</key>
@@ -702,11 +702,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			BM3GRy/uwpGibzB3EI5NpDT+lHA=
+			kr+PdXDpXfY8hQxUrRd/i2njeEU=
 			</data>
 			<key>hash2</key>
 			<data>
-			EnYiNzPSJi1jqtrNFfWQ45ZWlUqEIAeigLjpCzhTXj8=
+			b/bX4kFbXrNgSL7UxHQV4ue9uGeqUiHyiAFEoxSzVpg=
 			</data>
 		</dict>
 		<key>config.xml</key>
@@ -977,22 +977,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			x1JlPKCFV68xb//M6rEC5hy60Qg=
+			0LyTme2aoSttu6HcZqr0XFKDH1w=
 			</data>
 			<key>hash2</key>
 			<data>
-			oTqHVEIV7O3vuGJanOUpKRQRWyszao7+Lmime3LPrFY=
+			xFqXXUlU0uGoIjfJ3Si89XJs4rdYHWm4C0+WvvlnhNw=
 			</data>
 		</dict>
 		<key>www/js/default.js</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ApfZT3ZNBtQyz63aU6Hm3Ldk8N0=
+			m6P58bKlJPCHRFWAmlK2KDtT/TI=
 			</data>
 			<key>hash2</key>
 			<data>
-			vjcm/hQEZAMIseZl5bhJh3yN/8Q4BcfBtcvBTXAUh7I=
+			7g3p4ZH4dFXUuf80pmyfxT5mC9LVPWUMDiRQq5cZ29o=
 			</data>
 		</dict>
 		<key>www/js/fetchPolyfill.js</key>
