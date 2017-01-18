@@ -14,14 +14,15 @@
             <a class="pure-menu-heading" href="">BEHOLDER</a>
             <ul class="pure-menu-list">
                 <li class="pure-menu-item pure-menu-disabled"><a href="#" class="pure-menu-link">Home</a></li>
-                <li class="pure-menu-item"><a id="get-position" href="#" class="pure-menu-link">Find</a></li>
+                <li class="pure-menu-item"><a id="get-plots" href="#" class="pure-menu-link">Find</a></li>
                 <li class="pure-menu-item pure-menu-disabled"><a href="#" class="pure-menu-link">Sign Up</a></li>
             </ul>
         </div>
     </div>
-    <!-- <div id="mapWrap"> -->
-      <div id="googleMap"></div>
-    <!-- </div> -->
+    <form method="post" accept-charset="utf-8" id="map_form">
+      <input type="text" name="vertices" value="" id="vertices" />
+    </form>
+    <div id="googleMap"></div>
     <script src="js/default.js"></script>
     <script src="js/markerclusterer.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8kjmQJSIFArR2oGJQeN0fyEdY320Y8dM&libraries=drawing&callback=initMap" async defer></script>

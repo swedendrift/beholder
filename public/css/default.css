@@ -6,6 +6,15 @@
   margin-right:auto;
 }
 
+#map_form {
+  float: right;
+  top: 30px;
+}
+
+#map_form input {
+  width: 600px;
+}
+
 html, body {
   height: 100%;
   margin: 0;
