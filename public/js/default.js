@@ -1,5 +1,5 @@
-//containsLocation(point:LatLng, polygon:Polygon) to chieck if in/out of a fence
-const DEV_NODE = '192.168.0.11'
+// const DEV_NODE = '192.168.0.11'
+const DEV_NODE = '192.168.1.178'
 const plots = []
 var fences = []
 var markers = []
@@ -34,6 +34,15 @@ function initMap() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   map = new google.maps.Map(document.getElementById('googleMap'), myOptions)
+  map.data.setStyle({
+    fillColor: 'red',
+    fillOpacity: .2,
+    strokeWeight: .5,
+    clickable: false,
+    editable: false,
+    draggable: true,
+    zIndex: 1
+});
 
   markers = geoObjects.map((location) => {
     return new google.maps.Marker({
@@ -89,8 +98,8 @@ function initMap() {
       "type": "Feature",
       "features": shapeOptions,
       "geometry": {
-             "type": "Polygon",
-             "coordinates": points
+        "type": "Polygon",
+        "coordinates": [points]
       }
     }
     fences.push(fence)
@@ -127,7 +136,6 @@ function prepCoords(geoArray) {
         speed: geoArray[i].properties.speed,
         _id: geoArray[i]._id
       }
-      console.log(plot)
       plots.push(plot)
 
       const {lat, lng} = plot
@@ -141,13 +149,44 @@ document.getElementById("get-plots").addEventListener("click", () => {
   event.preventDefault()
   let thenable = search("coords")
   thenable.then((response) => {
-    console.log(response)
     prepCoords(response)
   })
 
+// ***feature
   thenable = search("fences")
-  thenable.then((response) => {
-    console.log(response)
-  })
+  thenable.then((data) => {
 
+    data.forEach((el) => {
+
+      let {coordinates} = el.geometry
+      console.log('coordinates ' + coordinates)
+      let polyArray = []
+
+      for (let i = 0; i < coordinates.length; i++) {
+        for (let j = 0; j < coordinates[i].length; j++) {
+          console.log(coordinates[i][j])
+        let object = {'lat': coordinates[i][j][1], 'lng': coordinates[i][j][0]}
+        console.log('object ' + object.lat, object.lng)
+        var myLatlng = new google.maps.LatLng(object.lat, object.lng);
+        polyArray.push(myLatlng)
+        }
+      }
+    map.data.add({geometry: new google.maps.Data.Polygon([polyArray])})
+    polyArray = [] // clear the array for the next loop
+    })
+  })
 }, false);
+//
+// let geoJSON = response[0]
+// let {coordinates} = geoJSON.geometry
+// let polyArray = []
+// coordinates.forEach((arrayData) => {
+//   let object = {'lat': arrayData[1], 'lng': arrayData[0]}
+//
+//   var myLatlng = new google.maps.LatLng(object.lat, object.lng);
+//
+//   polyArray.push(myLatlng)
+// })
+// map.data.add({geometry: new google.maps.Data.Polygon([polyArray])})
+//
+// })

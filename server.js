@@ -27,7 +27,7 @@ app.get('/coords', (req, res) => {
       }
       db.collection('geolocation-data').find().toArray().then((docs) => {
         res.send(docs)
-        console.log(docs)
+        // console.log(docs)
         db.close()
       }, (error) => {
         console.log('Unable to fetch data', error)
@@ -47,7 +47,7 @@ app.post('/coords', jsonParser, (req, res) => {
           if (error) {
               return console.log('Unable to insert data', error)
           }
-          console.log(result.ops)
+          // console.log(result.ops)
           db.close()
       })
 
@@ -65,7 +65,7 @@ app.get('/fences', (req, res) => {
       }
       db.collection('fences').find().toArray().then((docs) => {
         //transform the data to geoJSON
-        console.log(docs)
+        // console.log(docs)
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify(docs))
         db.close()
@@ -77,7 +77,7 @@ app.get('/fences', (req, res) => {
 
 app.post('/fences', jsonParser, (req, res) => {
   const data = req.body[0]
-  console.log(typeof data, data)
+  console.log(data)
   MongoClient.connect(MONGO, (error, db) => {
       if (error) {
         console.log('Unable to connect to MongoDB server')

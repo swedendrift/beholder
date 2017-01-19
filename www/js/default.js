@@ -1,4 +1,5 @@
-const DEV_NODE = '192.168.0.11'
+// const DEV_NODE = '192.168.0.11'
+const DEV_NODE = '192.168.1.178'
 
 var app = {
     initialize: function() {
@@ -24,13 +25,6 @@ var onGeoSuccess = function (position) {
       "heading": position.coords.heading
     }
   }
-  //  IF ABOVE IS WORKING REMOVE THIS
-  //   lat: position.coords.latitude,
-  //   lng: position.coords.longitude,
-  //   speed: position.coords.speed,
-  //   heading: position.coords.heading
-  // }
-
   postData(currentLoc, 'coords')
 }
 
