@@ -2,10 +2,8 @@
 const DEV_NODE = '192.168.1.178'
 const plots = []
 var fences = []
-var paths = []
 var markers = []
 var geoObjects = []
-var drawingManager
 var map
 
 // Add an #id property to getData to identify the user eventually
@@ -17,11 +15,6 @@ function search(route) {
     alert(`There was an error with your request: ${error}`)
   })
 }
-//Valid - First vertex of the polygon is provided at both the beginning and end of a LinearRing. this is the format we need ot adhere to
-// { "type": "Polygon",
-//     "coordinates": [
-//       [ [ 100.0 , 0.0 ] , [ 101.0 , 0.0 ] , [ 101.0 , 1.0 ] , [ 100.0 , 1.0 ] , [ 100.0 , 0.0 ] ]
-//     ]
 
 function postData(geoData, route) {
   const url = `http://${DEV_NODE}:6969/${route}`
@@ -106,16 +99,6 @@ function initMap() {
 
   drawingManager.setMap(map)
 
-
-  // Polygon representation (Square) of GeoJSON
-  // {
-  //   name: "Truckapalooza Square",
-  //   loc: {
-  //     type : "Polygon",
-  //     coordinates : [ [ [ 0 , 0 ] , [ 0 , 1 ] , [ 1 , 1 ] , [  1 , 0 ] , [ 0 , 0 ] ] ]
-  //   }
-  // }
-
   google.maps.event.addListener(drawingManager, "overlaycomplete", (event) => {
     // overlayClickListener(event.overlay)
     var vertices = document.getElementById('vertices') //remove or move
@@ -127,13 +110,12 @@ function initMap() {
       let point = [element.lat(), element.lng()]
       points.push(point)
     })
-    var closePoly = points[0]
+
     // per Google the start and end coordinates of the polygon need to be the same
+    var closePoly = points[0]
     points.push(closePoly)
-    // format the coordinates into a geoJSON document
     // enhancement : add a prompt for a name on overlaycomplete
     let fence = {
-      "name": "geofence",
       "loc": {
         "type": "Polygon",
         "coordinates": points
@@ -141,8 +123,6 @@ function initMap() {
     }
     fences.push(fence)
     postData(fences, 'fences')
-
-    console.log(fences)
   })
 }
 
@@ -156,25 +136,9 @@ function initMap() {
 //   })
 // }
 
-// function getLatLngFromString(location) {
-//     var latlng = location.split(/, ?/)
-//     var geolocation =  new google.maps.LatLng(parseFloat(latlng[0]), parseFloat(latlng[1]))
-//     console.log(JSON.stringify(geolocation))
-//     return geolocation
-// }
-
 document.getElementById("get-plots").addEventListener("click", () => {
-  const thenable = search("coords")
+  var thenable = search("coords")
   thenable.then((response) => {
     prepCoords(response)
   })
 }, false);
-
-// it would be nice to determine if a device is inside or outside the polygon before sending the data back to the end user
-// code for creating an MVC array w from coords
-// example unconverted array[[44.465332670616895, 26.143829190988], [44.466098355169805, 26.1465114000029]]
-//
-// for(var i=0; i < points.length; ++i){
-//      points[i] = new google.maps.LatLng(Number(points[i][0]),
-//                                         Number(points[i][1]));
-// }

@@ -54,6 +54,25 @@ app.post('/coords', jsonParser, (req, res) => {
   res.sendStatus(201)
 })
 
+app.get('/fences', (req, res) => {
+  const {MongoClient} = require('mongodb')
+  MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
+      if (error) {
+        console.log('Unable to connect to MongoDB server')
+      } else {
+        console.log('Connected to the MongoDB server')
+      }
+      db.collection('fences').find().toArray().then((docs) => {
+        //transform the data to geoJSON
+        console.log(docs)
+        res.send(JSON.stringify(docs))
+        db.close()
+      }, (error) => {
+        console.log('Unable to fetch data', error)
+      })
+  })
+})
+
 app.post('/fences', jsonParser, (req, res) => {
   const data = req.body[0]
   console.log(typeof data, data)
