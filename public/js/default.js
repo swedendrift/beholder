@@ -1,20 +1,10 @@
 //containsLocation(point:LatLng, polygon:Polygon) to chieck if in/out of a fence
-const DEV_NODE = '192.168.1.178'
+const DEV_NODE = '192.168.0.11'
 const plots = []
 var fences = []
 var markers = []
 var geoObjects = []
 var map
-
-// Add an #id property to getData to identify the user eventually
-function search(route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
-  return fetch(url).then((response) => {
-    return response.json()
-  }).catch((error) => {
-    alert(`There was an error with your request: ${error}`)
-  })
-}
 
 function postData(geoData, route) {
   const url = `http://${DEV_NODE}:6969/${route}`
@@ -36,26 +26,6 @@ function postData(geoData, route) {
   })
 }
 
-function prepCoords(geoArray) {
-  for (let i = 0; i < geoArray.length; i++) {
-    if (typeof geoArray[i].lat === 'number' && typeof geoArray[i].lng === 'number') {
-      const plot = {
-        lat: parseFloat(geoArray[i].lat),
-        lng: parseFloat(geoArray[i].lng),
-        heading: geoArray[i].heading,
-        speed: geoArray[i].speed,
-        _id: geoArray[i]._id
-      }
-      plots.push(plot)
-
-      const {lat, lng} = plot
-      const latLng = {lat, lng}
-      geoObjects.push(latLng)
-    } else { continue }
-  }
-  initMap()
-}
-
 function initMap() {
   var homeLatlng = new google.maps.LatLng(37.2966853, -122.0975973)
   var myOptions = {
@@ -74,7 +44,7 @@ function initMap() {
   var markerCluster = new MarkerClusterer(map, markers,
       {imagePath: 'imgs/m'})
 
-  geoObjects = []
+  geoObjects = [] // clear the geoObjects array
 
   var shapeOptions = {
     fillColor: 'red',
@@ -101,13 +71,13 @@ function initMap() {
 
   google.maps.event.addListener(drawingManager, "overlaycomplete", (event) => {
     // overlayClickListener(event.overlay)
-    var vertices = document.getElementById('vertices') //remove or move
-    var coords = (event.overlay.getPath().getArray())
+    let vertices = document.getElementById('vertices') //remove or move
+    let coords = (event.overlay.getPath().getArray())
     vertices.value = coords //remove or move
     fences = [] // clear the fences array
     let points = []
     coords.forEach((element) => {
-      let point = [element.lat(), element.lng()]
+      let point = [element.lng(), element.lat()]
       points.push(point)
     })
 
@@ -136,9 +106,39 @@ function initMap() {
 //   })
 // }
 
+// Add an #id property to getData to identify the user eventually
+function search(route) {
+  const url = `http://${DEV_NODE}:6969/${route}`
+  return fetch(url).then((response) => {
+    return response.json()
+  }).catch((error) => {
+    alert(`There was an error with your request: ${error}`)
+  })
+}
+
+function prepCoords(geoArray) {
+  for (let i = 0; i < geoArray.length; i++) {
+      const plot = {
+        lng: parseFloat(geoArray[i].geometry.coordinates[0]),
+        lat: parseFloat(geoArray[i].geometry.coordinates[1]),
+        heading: geoArray[i].properties.heading,
+        speed: geoArray[i].properties.speed,
+        _id: geoArray[i]._id
+      }
+      console.log(plot)
+      plots.push(plot)
+
+      const {lat, lng} = plot
+      const latLng = {lat, lng}
+      geoObjects.push(latLng)
+    }
+  initMap()
+}
+
 document.getElementById("get-plots").addEventListener("click", () => {
   var thenable = search("coords")
   thenable.then((response) => {
+    console.log(response)
     prepCoords(response)
   })
 }, false);

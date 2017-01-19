@@ -1,5 +1,4 @@
-const DEV_NODE = '192.168.1.178'
-const ROUTE
+const DEV_NODE = '192.168.0.11'
 
 var app = {
     initialize: function() {
@@ -15,14 +14,23 @@ var app = {
 
 var onGeoSuccess = function (position) {
   var currentLoc = {
-    // conver to geojson
-    lat: position.coords.latitude,
-    lng: position.coords.longitude,
-    speed: position.coords.speed,
-    heading: position.coords.heading
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [position.coords.longitude, position.coords.latitude]
+    },
+    "properties": {
+      "speed": position.coords.speed,
+      "heading": position.coords.heading
+    }
   }
-// both ios and browser return valid data here {lat: 33.6685617, lng: -117.86363739999999, speed: null, heading: null}
-// FETCH is not supported in ios or safari - need to read on CORS too
+  //  IF ABOVE IS WORKING REMOVE THIS
+  //   lat: position.coords.latitude,
+  //   lng: position.coords.longitude,
+  //   speed: position.coords.speed,
+  //   heading: position.coords.heading
+  // }
+
   postData(currentLoc, 'coords')
 }
 
@@ -51,14 +59,15 @@ function onGeoError(error) {
 }
 
 app.initialize();
-var watchID
-console.log(watchID)
-document.getElementById("get-position").addEventListener("click", () => {
-  watchID = navigator.geolocation.watchPosition(onGeoSuccess, onGeoError,
-    { enableHighAccuracy: true }), false
+var watchId
 
-})
+document.getElementById("get-position").addEventListener("click", () => {
+  watchId = navigator.geolocation.watchPosition(onGeoSuccess, onGeoError,
+    { enableHighAccuracy: true })
+  }, false)
+
 
 document.getElementById("clear-watch").addEventListener("click", () => {
-  navigator.geolocation.clearWatch(watchID), false
-})
+  navigator.geolocation.clearWatch(watchId)
+  console.log(`Cleared watch on watchId: ${watchId}`)
+}, false)

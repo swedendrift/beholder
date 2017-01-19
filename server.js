@@ -27,6 +27,7 @@ app.get('/coords', (req, res) => {
       }
       db.collection('geolocation-data').find().toArray().then((docs) => {
         res.send(docs)
+        console.log(docs)
         db.close()
       }, (error) => {
         console.log('Unable to fetch data', error)
