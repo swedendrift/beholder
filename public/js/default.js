@@ -63,7 +63,7 @@ function initMap() {
       position: google.maps.ControlPosition.TOP_CENTER,
       drawingModes: ['polygon']
     },
-    circleOptions: shapeOptions,
+    // circleOptions: shapeOptions,
     polygonOptions: shapeOptions
   })
 
@@ -86,9 +86,11 @@ function initMap() {
     points.push(closePoly)
     // enhancement : add a prompt for a name on overlaycomplete
     let fence = {
-      "loc": {
-        "type": "Polygon",
-        "coordinates": points
+      "type": "Feature",
+      "features": shapeOptions,
+      "geometry": {
+             "type": "Polygon",
+             "coordinates": points
       }
     }
     fences.push(fence)
@@ -136,9 +138,16 @@ function prepCoords(geoArray) {
 }
 
 document.getElementById("get-plots").addEventListener("click", () => {
-  var thenable = search("coords")
+  event.preventDefault()
+  let thenable = search("coords")
   thenable.then((response) => {
     console.log(response)
     prepCoords(response)
   })
+
+  thenable = search("fences")
+  thenable.then((response) => {
+    console.log(response)
+  })
+
 }, false);

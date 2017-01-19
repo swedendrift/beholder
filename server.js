@@ -66,6 +66,7 @@ app.get('/fences', (req, res) => {
       db.collection('fences').find().toArray().then((docs) => {
         //transform the data to geoJSON
         console.log(docs)
+        res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify(docs))
         db.close()
       }, (error) => {
