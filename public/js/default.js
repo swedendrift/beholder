@@ -175,7 +175,7 @@ document.getElementById("get-plots").addEventListener("click", () => {
       myFences.forEach((poly) => {
         if (google.maps.geometry.poly.containsLocation(datum, poly) === true) {
           console.log('it works')
-
+          document.getElementById('alerts').innerText = 'Alert:  child is off the leash'
           markers = googleLatLngs.map((location) => {
             return new google.maps.Marker({
               position: location,
