@@ -1,5 +1,5 @@
-const DEV_NODE = '192.168.0.11'
-// const DEV_NODE = '192.168.1.178'
+// const DEV_NODE = '192.168.0.11'
+const DEV_NODE = '192.168.1.178'
 const plots = []
 var fences = []
 var markers = []
@@ -27,6 +27,7 @@ function initMap() {
     zIndex: 1
   });
 
+
   var thenable = search("fences")
   thenable.then((data) => {
     data.forEach((el) => {
@@ -45,6 +46,25 @@ function initMap() {
       polyArray = [] // clear the array for the next loop
     })
   })
+
+  function testContains() {
+    var triangleCoords = [
+            {lat: 25.774, lng: -80.19},
+            {lat: 18.466, lng: -66.118},
+            {lat: 32.321, lng: -64.757}
+          ];
+    var bermudaTriangle = new google.maps.Polygon({paths: triangleCoords})
+    console.log(bermudaTriangle)
+    var latLng = new google.maps.LatLng(24.886, -70.269)
+    console.log(latLng)
+    console.log(google.maps.drawing)
+    if (google.maps.geometry.poly.containsLocation(latLng, bermudaTriangle) === true) {
+      console.log('it works')
+    } else {
+      console.log('denied')
+    }
+  }
+  testContains()
 
   var markerCluster = new MarkerClusterer(map, markers, {imagePath: 'imgs/m'})
 
@@ -127,7 +147,7 @@ function postData(geoData, route) {
     },
     credentials: "omit"
   }).then((response) => {
-    return response.status()
+    return response.status
   }, function(error) {
     error.message
   })
