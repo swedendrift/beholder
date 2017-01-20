@@ -6,6 +6,7 @@ var markers = []
 var googleLatLngs = []
 var googlePolys = []
 var map
+var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
 function initMap() {
   fences = [] // clear the geofence array to avoid duplicates
@@ -41,13 +42,7 @@ function initMap() {
       }
       var fence = map.data.add({geometry: new google.maps.Data.Polygon([polyArray])})
       googlePolys.push(fence)
-
       polyArray = [] // clear the array for the next loop
-      markers = googleLatLngs.map((location) => {
-        return new google.maps.Marker({
-          position: location
-        })
-      })
     })
   })
 
@@ -162,25 +157,11 @@ document.getElementById("get-plots").addEventListener("click", () => {
   let thenable = search("coords")
   thenable.then((data) => {
     googleLatLngs = prepCoords(data)
+    markers = googleLatLngs.map((location) => {
+      return new google.maps.Marker({
+        position: location
+      })
+    })
     initMap()
   })
-console.log(fences)
-console.log(googleLatLngs)
-  // thenable = search("fences")
-  // thenable.then((data) => {
-  //   data.forEach((el) => {
-  //     let {coordinates} = el.geometry
-  //     let polyArray = []
-  //
-  //     for (let i = 0; i < coordinates.length; i++) {
-  //       for (let j = 0; j < coordinates[i].length; j++) {
-  //       let object = {'lat': coordinates[i][j][1], 'lng': coordinates[i][j][0]}
-  //       var myLatlng = new google.maps.LatLng(object.lat, object.lng);
-  //       polyArray.push(myLatlng)
-  //       }
-  //     }
-  //   map.data.add({geometry: new google.maps.Data.Polygon([polyArray])})
-  //   polyArray = [] // clear the array for the next loop
-  //   })
-  // })
 }, false);
