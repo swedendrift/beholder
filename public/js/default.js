@@ -6,13 +6,14 @@ var markers = []
 var googleLatLngs = []
 var googlePolys = []
 var map
-var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+var polygonPointArray = []
+// var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
 function initMap() {
   fences = [] // clear the geofence array to avoid duplicates
   var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453)
   var myOptions = {
-    zoom: 15,
+    zoom: 18,
     center: homeLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
@@ -32,39 +33,24 @@ function initMap() {
   thenable.then((data) => {
     data.forEach((el) => {
       let {coordinates} = el.geometry
-      let polyArray = []
+      var polyArray = []
 
       for (let i = 0; i < coordinates.length; i++) {
+        let arrayAggregator = []
         for (let j = 0; j < coordinates[i].length; j++) {
-        let object = {'lat': coordinates[i][j][1], 'lng': coordinates[i][j][0]}
-        var myLatlng = new google.maps.LatLng(object.lat, object.lng);
-        polyArray.push(myLatlng)
+          let object = {'lat': coordinates[i][j][1], 'lng': coordinates[i][j][0]}
+          arrayAggregator.push(object)
+          var myLatlng = new google.maps.LatLng(object.lat, object.lng);
+          polyArray.push(myLatlng)
         }
+        polygonPointArray.push([arrayAggregator])
+        arrayAggregator = []
       }
       var fence = map.data.add({geometry: new google.maps.Data.Polygon([polyArray])})
       googlePolys.push(fence)
       polyArray = [] // clear the array for the next loop
     })
   })
-
-  function testContains() {
-    var triangleCoords = [
-            {lat: 25.774, lng: -80.19},
-            {lat: 18.466, lng: -66.118},
-            {lat: 32.321, lng: -64.757}
-          ];
-    var bermudaTriangle = new google.maps.Polygon({paths: triangleCoords})
-    console.log(bermudaTriangle)
-    var latLng = new google.maps.LatLng(24.886, -70.269)
-    console.log(latLng)
-    console.log(google.maps.drawing)
-    if (google.maps.geometry.poly.containsLocation(latLng, bermudaTriangle) === true) {
-      console.log('it works')
-    } else {
-      console.log('denied')
-    }
-  }
-  testContains()
 
   var markerCluster = new MarkerClusterer(map, markers, {imagePath: 'imgs/m'})
 
@@ -95,8 +81,6 @@ function initMap() {
     // overlayClickListener(event.overlay)
 
     let coords = (event.overlay.getPath().getArray())
-    // let vertices = document.getElementById('vertices') //remove or move
-    // vertices.value = coords //remove or move
     let points = []
     coords.forEach((element) => {
       let point = [element.lng(), element.lat()]
@@ -174,14 +158,42 @@ function prepCoords(geoArray) {
 
 document.getElementById("get-plots").addEventListener("click", () => {
   event.preventDefault()
+
+  var myFences = []
+  var good = encodeURI('../imgs/normal.png')
+  var bad = encodeURI('../imgs/oob.png')
   let thenable = search("coords")
   thenable.then((data) => {
     googleLatLngs = prepCoords(data)
-    markers = googleLatLngs.map((location) => {
-      return new google.maps.Marker({
-        position: location
+    polygonPointArray.forEach((element) => {
+      var polyFence = new google.maps.Polygon({paths: element})
+      myFences.push(polyFence)
+    })
+
+    googleLatLngs.forEach((gpoint) =>{
+      var datum = new google.maps.LatLng(gpoint)
+      myFences.forEach((poly) => {
+        if (google.maps.geometry.poly.containsLocation(datum, poly) === true) {
+          console.log('it works')
+
+          markers = googleLatLngs.map((location) => {
+            return new google.maps.Marker({
+              position: location,
+              icon: { url: good }
+            })
+          })
+        } else {
+          console.log('denied')
+          markers = googleLatLngs.map((location) => {
+            return new google.maps.Marker({
+              position: location,
+              icon: { url: good }
+            })
+          })
+        }
       })
     })
+
     initMap()
   })
 }, false);
