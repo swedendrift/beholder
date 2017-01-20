@@ -9,9 +9,9 @@ const jsonParser = bodyParser.json()
 const PORT = process.env.PORT || 6969
 const MONGO = 'mongodb://localhost:27017/beholder'
 
-const logpath = path.join(__dirname, './server.log')
-const accessLogStream = fs.createWriteStream(logpath, {flags: 'a'})
-app.use(logger('combined', {stream: accessLogStream}));
+// const logpath = path.join(__dirname, './server.log')
+// const accessLogStream = fs.createWriteStream(logpath, {flags: 'a'})
+// app.use(logger('combined', {stream: accessLogStream}));
 app.use(bodyParser.urlencoded({extended: false}));
 
 const staticPath = path.join(__dirname, '/public')
@@ -64,7 +64,6 @@ app.get('/fences', (req, res) => {
         console.log('Connected to the MongoDB server')
       }
       db.collection('fences').find().toArray().then((docs) => {
-        //transform the data to geoJSON
         // console.log(docs)
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify(docs))
