@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Beholder Console</title>
-    <link rel="shortcut icon" href="/imgs/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/default.css">
     <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
   </head>
@@ -14,18 +14,17 @@
             <a class="pure-menu-heading" href="">BEHOLDER</a>
             <ul class="pure-menu-list">
                 <li class="pure-menu-item pure-menu-disabled"><a href="#" class="pure-menu-link">Home</a></li>
-                <li class="pure-menu-item"><a id="get-position" href="#" class="pure-menu-link">Find</a></li>
+                <li class="pure-menu-item"><a id="get-plots" href="" class="pure-menu-link">Find</a></li>
                 <li class="pure-menu-item pure-menu-disabled"><a href="#" class="pure-menu-link">Sign Up</a></li>
             </ul>
         </div>
     </div>
-    <!-- <div id="mapWrap"> -->
-      <div id="googleMap"></div>
-    <!-- </div> -->
+    <div class="hidden" id="alerts" name="alerts">
+
+    </div>
+    <div id="googleMap"></div>
     <script src="js/default.js"></script>
     <script src="js/markerclusterer.js"></script>
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8kjmQJSIFArR2oGJQeN0fyEdY320Y8dM&libraries=drawing&callback=initMap">
-    // <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8kjmQJSIFArR2oGJQeN0fyEdY320Y8dM&callback=initMap">
-    </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwGoAzvh3W59qX3Q-qHvSX7z1qwL1yKZI&libraries=drawing,geometry&callback=initMap" async></script>
   </body>
 </html>

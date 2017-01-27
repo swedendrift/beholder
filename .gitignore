@@ -6,14 +6,4 @@ npm-debug.log*
 # Dependency directories
 node_modules
 
-# Optional REPL history
-.node_repl_history
-
-# Images and Assets
-imgs
-
-# Cordova files
-plugins
-platforms
-
 playground
