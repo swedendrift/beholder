@@ -1,5 +1,5 @@
-// const DEV_NODE = '192.168.0.11'
-const DEV_NODE = '192.168.1.178'
+const DEV_NODE = '192.168.0.11'
+// const DEV_NODE = '192.168.1.178'
 const plots = []
 var fences = []
 var markers = []
@@ -7,7 +7,6 @@ var googleLatLngs = []
 var googlePolys = []
 var map
 var polygonPointArray = []
-// var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
 function initMap() {
   fences = [] // clear the geofence array to avoid duplicates
@@ -156,9 +155,7 @@ function prepCoords(geoArray) {
   return(geoObjects)
 }
 
-document.getElementById("get-plots").addEventListener("click", () => {
-  event.preventDefault()
-
+function setMarkers() {
   var myFences = []
   var good = encodeURI('../imgs/normal.png')
   var bad = encodeURI('../imgs/oob.png')
@@ -174,8 +171,11 @@ document.getElementById("get-plots").addEventListener("click", () => {
       var datum = new google.maps.LatLng(gpoint)
       myFences.forEach((poly) => {
         if (google.maps.geometry.poly.containsLocation(datum, poly) === true) {
+
           console.log('it works')
-          document.getElementById('alerts').innerText = 'Alert:  child is off the leash'
+          var alertDiv = document.getElementById('alerts')
+          alertDiv.classList.remove('hidden')
+          alertDiv.innerText = 'Alert:  child is off the leash'
           markers = googleLatLngs.map((location) => {
             return new google.maps.Marker({
               position: location,
@@ -196,4 +196,9 @@ document.getElementById("get-plots").addEventListener("click", () => {
 
     initMap()
   })
+}
+
+document.getElementById("get-plots").addEventListener("click", () => {
+  event.preventDefault()
+  setMarkers()
 }, false);

@@ -2,13 +2,14 @@
   top: 5%;
   height: 85%;
   width: 75%;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-left:auto;
   margin-right:auto;
 }
 
 #alerts {
   position: relative;
+  margin-bottom: 20px;
   margin-left:auto;
   margin-right:auto;
   top: 50px;
@@ -34,4 +35,8 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.hidden {
+  display: none;
 }
