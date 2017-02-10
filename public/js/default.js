@@ -1,6 +1,11 @@
-const DEV_NODE = '192.168.0.11'
-// const DEV_NODE = '192.168.1.178'
-const plots = []
+/*
+global
+google
+MarkerClusterer
+*/
+
+const DEV_NODE = '192.168.0.8'
+// const DEV_NODE = '192.168.1.169'
 var fences = []
 var markers = []
 var googleLatLngs = []
@@ -31,7 +36,7 @@ function initMap() {
   var thenable = search("fences")
   thenable.then((data) => {
     data.forEach((el) => {
-      let {coordinates} = el.geometry
+      let { coordinates } = el.geometry
       var polyArray = []
 
       for (let i = 0; i < coordinates.length; i++) {
@@ -137,6 +142,7 @@ function postData(geoData, route) {
 }
 
 function prepCoords(geoArray) {
+  var plots = []
   var geoObjects = [] // clear the geoObjects array before it is reused
   for (let i = 0; i < geoArray.length; i++) {
       const plot = {
@@ -158,7 +164,7 @@ function prepCoords(geoArray) {
 function setMarkers() {
   var myFences = []
   var good = encodeURI('../imgs/normal.png')
-  var bad = encodeURI('../imgs/oob.png')
+  // var bad = encodeURI('../imgs/oob.png')
   let thenable = search("coords")
   thenable.then((data) => {
     googleLatLngs = prepCoords(data)
@@ -171,11 +177,9 @@ function setMarkers() {
       var datum = new google.maps.LatLng(gpoint)
       myFences.forEach((poly) => {
         if (google.maps.geometry.poly.containsLocation(datum, poly) === true) {
-
-          console.log('it works')
           var alertDiv = document.getElementById('alerts')
           alertDiv.classList.remove('hidden')
-          alertDiv.innerText = 'Alert:  child is off the leash'
+          alertDiv.innerText = 'Out of Bounds'
           markers = googleLatLngs.map((location) => {
             return new google.maps.Marker({
               position: location,
@@ -183,7 +187,6 @@ function setMarkers() {
             })
           })
         } else {
-          console.log('denied')
           markers = googleLatLngs.map((location) => {
             return new google.maps.Marker({
               position: location,
