@@ -1,5 +1,5 @@
-const DEV_NODE = '192.168.0.11'
-// const DEV_NODE = '192.168.1.178'
+const DEV_NODE = '192.168.0.8'
+// const DEV_NODE = '192.168.1.169'
 
 var app = {
     initialize: function() {
