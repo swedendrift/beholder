@@ -1,13 +1,13 @@
 #map {
   height: 70%;
-  width: 55%;
+  width: 60%;
   top: 50px;
   margin-left:auto;
   margin-right:40px;
 }
 
 #accordion-menu {
-  max-width: 400px;
+  max-width: 30%;
   position: absolute;
   top: 80px;
   left: 30px;
