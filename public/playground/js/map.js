@@ -3,133 +3,16 @@ global
 google
 MarkerClusterer
 */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const Redux = require('redux')
+// const React = require('react')
+// const ReactDOM = require('react-dom')
+// const Redux = require('redux')
 
-
-
-// const DEV_NODE = '192.168.0.8'
-const DEV_NODE = '192.168.1.169'
-
+const DEV_NODE = '192.168.0.8'
 var map
-
-const retro =
-   [
-     {elementType: 'geometry', stylers: [{color: '#ebe3cd'}]},
-     {elementType: 'labels.text.fill', stylers: [{color: '#523735'}]},
-     {elementType: 'labels.text.stroke', stylers: [{color: '#f5f1e6'}]},
-     {
-       featureType: 'administrative',
-       elementType: 'geometry.stroke',
-       stylers: [{color: '#c9b2a6'}]
-     },
-     {
-       featureType: 'administrative.land_parcel',
-       elementType: 'geometry.stroke',
-       stylers: [{color: '#dcd2be'}]
-     },
-     {
-       featureType: 'administrative.land_parcel',
-       elementType: 'labels.text.fill',
-       stylers: [{color: '#ae9e90'}]
-     },
-     {
-       featureType: 'landscape.natural',
-       elementType: 'geometry',
-       stylers: [{color: '#dfd2ae'}]
-     },
-     {
-       featureType: 'poi',
-       elementType: 'geometry',
-       stylers: [{color: '#dfd2ae'}]
-     },
-     {
-       featureType: 'poi',
-       elementType: 'labels.text.fill',
-       stylers: [{color: '#93817c'}]
-     },
-     {
-       featureType: 'poi.park',
-       elementType: 'geometry.fill',
-       stylers: [{color: '#a5b076'}]
-     },
-     {
-       featureType: 'poi.park',
-       elementType: 'labels.text.fill',
-       stylers: [{color: '#447530'}]
-     },
-     {
-       featureType: 'road',
-       elementType: 'geometry',
-       stylers: [{color: '#f5f1e6'}]
-     },
-     {
-       featureType: 'road.arterial',
-       elementType: 'geometry',
-       stylers: [{color: '#fdfcf8'}]
-     },
-     {
-       featureType: 'road.highway',
-       elementType: 'geometry',
-       stylers: [{color: '#f8c967'}]
-     },
-     {
-       featureType: 'road.highway',
-       elementType: 'geometry.stroke',
-       stylers: [{color: '#e9bc62'}]
-     },
-     {
-       featureType: 'road.highway.controlled_access',
-       elementType: 'geometry',
-       stylers: [{color: '#e98d58'}]
-     },
-     {
-       featureType: 'road.highway.controlled_access',
-       elementType: 'geometry.stroke',
-       stylers: [{color: '#db8555'}]
-     },
-     {
-       featureType: 'road.local',
-       elementType: 'labels.text.fill',
-       stylers: [{color: '#806b63'}]
-     },
-     {
-       featureType: 'transit.line',
-       elementType: 'geometry',
-       stylers: [{color: '#dfd2ae'}]
-     },
-     {
-       featureType: 'transit.line',
-       elementType: 'labels.text.fill',
-       stylers: [{color: '#8f7d77'}]
-     },
-     {
-       featureType: 'transit.line',
-       elementType: 'labels.text.stroke',
-       stylers: [{color: '#ebe3cd'}]
-     },
-     {
-       featureType: 'transit.station',
-       elementType: 'geometry',
-       stylers: [{color: '#dfd2ae'}]
-     },
-     {
-       featureType: 'water',
-       elementType: 'geometry.fill',
-       stylers: [{color: '#b9d3c2'}]
-     },
-     {
-       featureType: 'water',
-       elementType: 'labels.text.fill',
-       stylers: [{color: '#92998d'}]
-     }
-   ]
 
 var settings = {
   // store markers and polys in GeoJSON and build
   // converters to googleLatLngs, objects and markers
-  //
   distanceBetweenMarkers: 5,
   geofences: [],
   markers: [],
@@ -148,18 +31,13 @@ function initMap() {
   var fences = []
   var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453)
   var mapOptions = {
-    zoom: 15,
+    zoom: 18,
     center: homeLatlng,
-    mapTypeControlOptions: {
-        mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
-    }
+    mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   // create a new map
   map = new google.maps.Map(document.getElementById('map'), mapOptions)
   map.data.setStyle(settings.shapeOptions)
-  var styledMapType = new google.maps.StyledMapType(retro, {name: 'retro'})
-  map.mapTypes.set('retro', styledMapType);
-  map.setMapTypeId('retro')
   // create a drawing manager instance - **replace with data layer
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -292,7 +170,7 @@ function handleMarkerData(geoJSONdata) {
   // Add a marker clusterer to manage the markers.
   const mcOptions = {
     gridSize: 50,
-    maxZoom: 16,
+    maxZoom: 15,
     minimumClusterSize: 4,
     imagePath: 'imgs/m'}
   // create a new cluster marker manager
@@ -323,91 +201,3 @@ function fetchCoordinates () {
 document.getElementById('get-plots').addEventListener('click', () => {
   fetchCoordinates()
 },false)
-
-
-
-/* react components here for now */
-const initialState = {
-  alerts: [],
-  count: 0,
-  alertBoxOpen: false
-}
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'ALERT_RECEIVED':
-      return Object.assign({}, state, {
-        // take the old alerts + new alert and return a new array
-        alerts: [...state.alerts, action.alerts],
-        // alerts: action.alerts,
-        count: state.count + 1
-      })
-    case 'ALERT_CLEARED':
-      return Object.assign({}, state, {
-        count: action.count = 0,
-        alertBoxOpen: true
-
-      })
-    case 'SHOW_ALERTS':
-      return Object.assign({}, state, {
-        alertBoxOpen: !state.alertBoxOpen
-
-      })
-    default:
-      return state;
-  }
-}
-
-function accordion(elementState, level ) {
-  const active = {'className': `${level} active`}
-  const inactive = {'className': `${level}`}
-  if (elementState === true) {
-    return active
-  } else {
-    return inactive
-  }
-}
-
-function AlertMonitor() {
-  const count = store.getState().count
-  const alerts = store.getState().alerts
-  const alertBoxOpen = store.getState().alertBoxOpen
-  const handleClickAlerts = () => {
-    store.dispatch({ type: 'ALERT_CLEARED'})
-  }
-  const handleClickAccordian = () => {
-    store.dispatch({ type: 'SHOW_ALERTS'})
-  }
-  const AlertMonitor = React.createClass({
-    render: function() {
-      return (
-        <div id='accordion-menu' className='ui styled fluid accordion wide column'>
-
-        </div>
-      )
-    }
-  })
-}
-/* eslint-disable no-underscore-dangle */
-const store = Redux.createStore(reducer, initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
-/* eslint-enable */
-// var store = Redux.createStore(reducer, initialState)
-
-function randomize () {
-  return chance.sentence({words: 6})
-}
-
-function redraw() {
-  ReactDOM.render(
-    React.createElement(AlertMonitor, null), document.getElementById('root'));
-}
-redraw();
-
-store.subscribe(redraw)
-
-window.setInterval(() => {
-  store.dispatch({ type: 'ALERT_RECEIVED',  alerts: randomize() })
-  console.log(store.getState())
-}, 5000)
