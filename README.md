@@ -1,4 +1,4 @@
-##Beholder - helping guardians keep track of their children
+##Beholder - helping guardians keep track of their loved ones
 
 ####Please see the wiki for project setup details:
 
