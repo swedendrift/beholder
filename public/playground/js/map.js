@@ -3,7 +3,15 @@ global
 google
 MarkerClusterer
 */
-const DEV_NODE = '192.168.0.8'
+const React = require('react')
+const ReactDOM = require('react-dom')
+const Redux = require('redux')
+
+
+
+// const DEV_NODE = '192.168.0.8'
+const DEV_NODE = '192.168.1.169'
+
 var map
 
 const retro =
@@ -117,7 +125,7 @@ const retro =
        stylers: [{color: '#92998d'}]
      }
    ]
-   
+
 var settings = {
   // store markers and polys in GeoJSON and build
   // converters to googleLatLngs, objects and markers
@@ -140,7 +148,7 @@ function initMap() {
   var fences = []
   var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453)
   var mapOptions = {
-    zoom: 18,
+    zoom: 15,
     center: homeLatlng,
     mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
@@ -315,3 +323,91 @@ function fetchCoordinates () {
 document.getElementById('get-plots').addEventListener('click', () => {
   fetchCoordinates()
 },false)
+
+
+
+/* react components here for now */
+const initialState = {
+  alerts: [],
+  count: 0,
+  alertBoxOpen: false
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'ALERT_RECEIVED':
+      return Object.assign({}, state, {
+        // take the old alerts + new alert and return a new array
+        alerts: [...state.alerts, action.alerts],
+        // alerts: action.alerts,
+        count: state.count + 1
+      })
+    case 'ALERT_CLEARED':
+      return Object.assign({}, state, {
+        count: action.count = 0,
+        alertBoxOpen: true
+
+      })
+    case 'SHOW_ALERTS':
+      return Object.assign({}, state, {
+        alertBoxOpen: !state.alertBoxOpen
+
+      })
+    default:
+      return state;
+  }
+}
+
+function accordion(elementState, level ) {
+  const active = {'className': `${level} active`}
+  const inactive = {'className': `${level}`}
+  if (elementState === true) {
+    return active
+  } else {
+    return inactive
+  }
+}
+
+function AlertMonitor() {
+  const count = store.getState().count
+  const alerts = store.getState().alerts
+  const alertBoxOpen = store.getState().alertBoxOpen
+  const handleClickAlerts = () => {
+    store.dispatch({ type: 'ALERT_CLEARED'})
+  }
+  const handleClickAccordian = () => {
+    store.dispatch({ type: 'SHOW_ALERTS'})
+  }
+  const AlertMonitor = React.createClass({
+    render: function() {
+      return (
+        <div id='accordion-menu' className='ui styled fluid accordion wide column'>
+
+        </div>
+      )
+    }
+  })
+}
+/* eslint-disable no-underscore-dangle */
+const store = Redux.createStore(reducer, initialState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
+/* eslint-enable */
+// var store = Redux.createStore(reducer, initialState)
+
+function randomize () {
+  return chance.sentence({words: 6})
+}
+
+function redraw() {
+  ReactDOM.render(
+    React.createElement(AlertMonitor, null), document.getElementById('root'));
+}
+redraw();
+
+store.subscribe(redraw)
+
+window.setInterval(() => {
+  store.dispatch({ type: 'ALERT_RECEIVED',  alerts: randomize() })
+  console.log(store.getState())
+}, 5000)

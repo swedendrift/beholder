@@ -9,11 +9,9 @@
 #accordion-menu {
   max-width: 30%;
   position: absolute;
-  top: 80px;
+  top: 110px;
   left: 30px;
   z-index: 5;
-  }
-
 }
 
 .hidden {
