@@ -6,54 +6,22 @@
     <title>Beholder Console</title>
     <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/map.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" />
-    <!-- <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css" />
   </head>
   <body>
     <div class="ui secondary  menu">
       <a  class="ui tiny image" id="get-plots" href="#">
         <img class="ui tiny image" src="imgs/eye.png">
       </a>
-      <div class="right menu">
-        </div>
+      <div class="right menu"></div>
         <a class="ui item">
           Signout
         </a>
-      </div>
     </div>
-
-    <!-- <div class="ui grid container"> -->
-    <div class="ui grid container">
-      <div id="accordion-menu" class="ui styled fluid accordion wide column">
-        <div class="active title">
-          <i class="dropdown icon"></i>
-          Alerts
-        </div>
-        <div class="active content">
-          <p>Alert!</p>
-        </div>
-        <div class="title">
-          <i class="dropdown icon"></i>
-          Preferences
-        </div>
-        <div class="content">
-          <p>Prefence 1</p>
-        </div>
-        <div class="title">
-          <i class="dropdown icon"></i>
-          Settings
-        </div>
-        <div class="content">
-          <p>A setting</p>
-        </div>
-      </div>
-    </div>
-      <div id="map"></div>
-
-    <!-- </div> -->
-    <script src="js/map.js"></script>
+    <div id="root"></div>
+    <div id="map"></div>
     <script src="js/markerclusterer.js"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApanhzM3J3VglQbAU35IDtNr8T5sYNtZU&libraries=drawing,geometry&callback=initMap"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script> -->
+    <script src="js/default.js"></script>
   </body>
 </html>

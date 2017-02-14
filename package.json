@@ -4,7 +4,8 @@
   "description": "The purpose of this application is to give parents access to their child's location",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "trans": "babel public/playground/js/map.js --out-file public/playground/js/default.js"
   },
   "repository": {
     "type": "git",
@@ -28,9 +29,17 @@
     "express": "^4.14.0",
     "mongodb": "^2.2.20",
     "morgan": "^1.7.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-plugin-transform-react-jsx": "^6.22.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.0.0",
     "nodemon": "^1.11.0"
   }
 }
