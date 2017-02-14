@@ -21359,11 +21359,16 @@ function initMap() {
   var mapOptions = {
     zoom: 18,
     center: homeLatlng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
+    }
   };
   // create a new map
   map = new google.maps.Map(document.getElementById('map'), mapOptions);
   map.data.setStyle(settings.shapeOptions);
+  var styledMapType = new google.maps.StyledMapType(retro, { name: 'retro' });
+  map.mapTypes.set('retro', styledMapType);
+  map.setMapTypeId('retro');
   // create a drawing manager instance - **replace with data layer
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -21528,6 +21533,7 @@ document.getElementById('get-plots').addEventListener('click', () => {
   fetchCoordinates();
 }, false);
 
+/* react components here for now */
 const initialState = {
   alerts: [],
   count: 0,
@@ -21560,8 +21566,8 @@ function reducer(state, action) {
 }
 
 function accordion(elementState, level) {
-  const active = { 'className': `${level} active` };
-  const inactive = { 'className': `${level}` };
+  const active = { "className": `${level} active` };
+  const inactive = { "className": `${level}` };
   if (elementState === true) {
     return active;
   } else {
@@ -21577,67 +21583,17 @@ function AlertMonitor() {
   const handleClickAlerts = () => {
     store.dispatch({ type: 'ALERT_CLEARED' });
   };
+
   const handleClickAccordian = () => {
     store.dispatch({ type: 'SHOW_ALERTS' });
   };
-  return React.createElement(
-    'div',
-    { className: 'ui styled fluid accordion wide column', id: 'accordion-menu' },
-    React.createElement(
-      'div',
-      { className: ('title', accordion(alertBoxOpen, 'content')) },
-      React.createElement('i', { className: 'dropdown icon', onClick: handleClickAccordian }),
-      'Alerts'
-    ),
-    React.createElement('div', { className: ('content', accordion(alertBoxOpen, 'content')) }),
-    React.createElement(
-      'div',
-      { className: ('title', accordion(alertBoxOpen, 'content')) },
-      React.createElement('i', { className: 'dropdown icon', onClick: handleClickAccordian }),
-      'Preferences'
-    ),
-    React.createElement('div', { className: ('content', accordion(alertBoxOpen, 'content')) }),
-    React.createElement(
-      'div',
-      { className: ('title', accordion(alertBoxOpen, 'content')) },
-      React.createElement('i', { className: 'dropdown icon', onClick: handleClickAccordian }),
-      'Settings'
-    ),
-    React.createElement(
-      'div',
-      { className: ('content', accordion(alertBoxOpen, 'content')) },
-      React.createElement(
-        'div',
-        { className: 'ui list', id: 'alertList' },
-        alerts.reverse().map((alert, i) => i === 0 ? React.createElement(
-          'li',
-          { id: 'latestAlert', className: 'item', key: i },
-          React.createElement('i', { className: 'warning icon' }),
-          React.createElement(
-            'div',
-            { className: content },
-            'alert'
-          )
-        ) : React.createElement(
-          'li',
-          { id: 'latestAlert', className: 'item', key: i },
-          React.createElement('i', { className: 'child icon' }),
-          React.createElement(
-            'div',
-            { className: content },
-            'alert'
-          )
-        ))
-      )
-    )
-  );
+  return React.createElement("div", { "className": "ui styled accordion", id: "accordion-menu" }, React.createElement("div", accordion(alertBoxOpen, 'title'), React.createElement("i", { "className": "dropdown icon", onClick: handleClickAccordian }), "Alerts"), React.createElement("div", accordion(alertBoxOpen, 'content'), React.createElement("div", { id: "alertsList", className: "ui list" }, alerts.reverse().map((alert, i) => i === 0 ? React.createElement("div", { id: "red", className: "item", key: i }, null, React.createElement("i", { "className": "warning circle icon" }), React.createElement("div", { "className": "content" }, alert)) : React.createElement("li", { className: "item", key: i }, null, React.createElement("i", { "className": "child icon" }), React.createElement("div", { "className": "content" }, alert))))));
 }
+
 /* eslint-disable no-underscore-dangle */
-// const store = Redux.createStore(reducer, initialState,
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// )
+const store = Redux.createStore(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 /* eslint-enable */
-var store = Redux.createStore(reducer, initialState);
+// var store = Redux.createStore(reducer, initialState)
 
 function randomize() {
   return chance.sentence({ words: 6 });
@@ -21653,7 +21609,7 @@ store.subscribe(redraw);
 window.setInterval(() => {
   store.dispatch({ type: 'ALERT_RECEIVED', alerts: randomize() });
   console.log(store.getState());
-}, 5000);
+}, 10000);
 
 },{"react":186,"react-dom":35,"redux":192}],198:[function(require,module,exports){
 // shim for using process in browser

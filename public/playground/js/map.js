@@ -330,7 +330,7 @@ function reducer(state, action) {
   switch (action.type) {
     case 'ALERT_RECEIVED':
       return Object.assign({}, state, {
-        // take the old alerts + new message and return a new array
+        // take the old alerts + new alert and return a new array
         alerts: [...state.alerts, action.alerts],
         // alerts: action.alerts,
         count: state.count + 1
@@ -398,7 +398,7 @@ function AlertMonitor() {
                 React.createElement(
                   "div",
                   { "className": "content" },
-                  message
+                  alert
                 )
               )
             : React.createElement(
@@ -409,7 +409,7 @@ function AlertMonitor() {
               React.createElement(
                 "div",
                 { "className": "content" },
-                message
+                alert
               )
             )
           )
@@ -431,7 +431,7 @@ function randomize () {
 }
 
 function redraw() {
-  ReactDOM.render(React.createElement(alertMonitor, null), document.getElementById('root'));
+  ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'));
 }
 redraw();
 
