@@ -21353,7 +21353,7 @@ var settings = {
   }
 };
 
-function initMap() {
+window.initMap = () => {
   var fences = [];
   var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453);
   var mapOptions = {
@@ -21405,7 +21405,7 @@ function initMap() {
   drawingManager.setMap(map);
   refreshView();
   fetchCoordinates();
-}
+};
 
 function refreshView() {
   const thenable = search('fences');
@@ -21517,7 +21517,7 @@ function checkOob(coord) {
   var googleLatLng = new google.maps.LatLng(coord);
   myFences.forEach(polygon => {
     if (google.maps.geometry.poly.containsLocation(googleLatLng, polygon)) {
-      console.log('Marker added inside polygon');
+      store.dispatch({ type: 'ALERT_RECEIVED', alerts: 'Out of bounds detected near ADDRESS' });
     }
   });
 }
@@ -21537,7 +21537,9 @@ document.getElementById('get-plots').addEventListener('click', () => {
 const initialState = {
   alerts: [],
   count: 0,
-  alertBoxOpen: false
+  alertBoxOpen: false,
+  preferenceBoxOpen: false,
+  settingBoxOpen: false
 };
 
 function reducer(state, action) {
@@ -21553,12 +21555,18 @@ function reducer(state, action) {
       return Object.assign({}, state, {
         count: action.count = 0,
         alertBoxOpen: true
-
       });
     case 'SHOW_ALERTS':
       return Object.assign({}, state, {
         alertBoxOpen: !state.alertBoxOpen
-
+      });
+    case 'SHOW_PREFS':
+      return Object.assign({}, state, {
+        preferenceBoxOpen: !state.preferenceBoxOpen
+      });
+    case 'SHOW_SETTINGS':
+      return Object.assign({}, state, {
+        settingBoxOpen: !state.settingBoxOpen
       });
     default:
       return state;
@@ -21579,15 +21587,26 @@ function AlertMonitor() {
   const count = store.getState().count;
   const alerts = store.getState().alerts;
   const alertBoxOpen = store.getState().alertBoxOpen;
+  const preferenceBoxOpen = store.getState().preferenceBoxOpen;
+  const settingBoxOpen = store.getState().settingBoxOpen;
+
+  // const handleClickAlerts = () => {
+  //   store.dispatch({ type: 'ALERT_CLEARED'})
+  // }
 
   const handleClickAlerts = () => {
-    store.dispatch({ type: 'ALERT_CLEARED' });
-  };
-
-  const handleClickAccordian = () => {
     store.dispatch({ type: 'SHOW_ALERTS' });
   };
-  return React.createElement("div", { "className": "ui styled accordion", id: "accordion-menu" }, React.createElement("div", accordion(alertBoxOpen, 'title'), React.createElement("i", { "className": "dropdown icon", onClick: handleClickAccordian }), "Alerts"), React.createElement("div", accordion(alertBoxOpen, 'content'), React.createElement("div", { id: "alertsList", className: "ui list" }, alerts.reverse().map((alert, i) => i === 0 ? React.createElement("div", { id: "red", className: "item", key: i }, null, React.createElement("i", { "className": "warning circle icon" }), React.createElement("div", { "className": "content" }, alert)) : React.createElement("li", { className: "item", key: i }, null, React.createElement("i", { "className": "child icon" }), React.createElement("div", { "className": "content" }, alert))))));
+
+  const handleClickPrefs = () => {
+    store.dispatch({ type: 'SHOW_PREFS' });
+  };
+
+  const handleClickSettings = () => {
+    store.dispatch({ type: 'SHOW_SETTINGS' });
+  };
+
+  return React.createElement("div", { "className": "ui styled accordion", id: "accordion-menu" }, React.createElement("div", accordion(alertBoxOpen, 'title'), React.createElement("i", { "className": "dropdown icon", onClick: handleClickAlerts }), "Alerts"), React.createElement("div", accordion(alertBoxOpen, 'content'), React.createElement("div", { id: "alertsList", className: "ui list" }, alerts.reverse().map((alert, i) => i === 0 ? React.createElement("div", { id: "red", className: "item", key: i }, null, React.createElement("i", { "className": "warning circle icon" }), React.createElement("div", { "className": "content" }, alert)) : React.createElement("li", { className: "item", key: i }, null, React.createElement("i", { "className": "child icon" }), React.createElement("div", { "className": "content" }, alert))))), React.createElement("div", accordion(preferenceBoxOpen, 'title'), React.createElement("i", { "className": "dropdown icon", onClick: handleClickPrefs }), "Preferences"), React.createElement("div", accordion(preferenceBoxOpen, 'content'), React.createElement("div", { id: "alertsList", className: "ui list" }, React.createElement("div", { className: "item" }, null, React.createElement("div", { className: "content" }, null)))), React.createElement("div", accordion(settingBoxOpen, 'title'), React.createElement("i", { "className": "dropdown icon", onClick: handleClickSettings }), "Settings"), React.createElement("div", accordion(settingBoxOpen, 'content'), React.createElement("div", { id: "alertsList", className: "ui list" }, React.createElement("div", { className: "item" }, null, React.createElement("div", { className: "content" }, null)))));
 }
 
 /* eslint-disable no-underscore-dangle */
@@ -21606,10 +21625,10 @@ redraw();
 
 store.subscribe(redraw);
 
-window.setInterval(() => {
-  store.dispatch({ type: 'ALERT_RECEIVED', alerts: randomize() });
-  console.log(store.getState());
-}, 10000);
+// window.setInterval(() => {
+//   store.dispatch({ type: 'ALERT_RECEIVED',  alerts: randomize() })
+//
+// }, 10000)
 
 },{"react":186,"react-dom":35,"redux":192}],198:[function(require,module,exports){
 // shim for using process in browser
