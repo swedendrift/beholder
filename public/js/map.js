@@ -9,8 +9,6 @@ const Redux = require('redux')
 
 // const DEV_NODE = '192.168.0.8'
 const DEV_NODE = '192.168.1.169'
-
-
 var map
 
 const retro =

@@ -7,7 +7,8 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const Redux = require('redux')
 
-const DEV_NODE = '192.168.0.8'
+// const DEV_NODE = '192.168.0.8'
+const DEV_NODE = '192.168.1.169'
 var map
 
 const retro =
@@ -491,18 +492,9 @@ const store = Redux.createStore(reducer, initialState,
 /* eslint-enable */
 // var store = Redux.createStore(reducer, initialState)
 
-function randomize () {
-  return chance.sentence({words: 6})
-}
-
 function redraw() {
   ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'));
 }
 redraw();
 
 store.subscribe(redraw)
-
-// window.setInterval(() => {
-//   store.dispatch({ type: 'ALERT_RECEIVED',  alerts: randomize() })
-//
-// }, 10000)
