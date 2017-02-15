@@ -6,9 +6,12 @@ MarkerClusterer
 const React = require('react')
 const ReactDOM = require('react-dom')
 const Redux = require('redux')
+const semanticUI = require('semantic-ui-react')
+const {List} = semanticUI
 
-const DEV_NODE = '192.168.0.8'
-// const DEV_NODE = '192.168.1.169'
+
+// const DEV_NODE = '192.168.0.8'
+const DEV_NODE = '192.168.1.169'
 var map
 
 const retro =
@@ -137,12 +140,16 @@ var settings = {
     editable: false,
     draggable: true,
     zIndex: 1
+  },
+  mapCenter: {
+    lat: 37.3310207,
+    lng: -122.0293453
   }
 }
 
 window.initMap = () => {
   var fences = []
-  var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453)
+  var homeLatlng = new google.maps.LatLng(settings.mapCenter.lat, settings.mapCenter.lng)
   var mapOptions = {
     zoom: 15,
     center: homeLatlng,
@@ -167,7 +174,7 @@ window.initMap = () => {
     polygonOptions: settings.shapeOptions
   })
   // create a google listener for posting new geofences to mongodb
-  google.maps.event.addListener(drawingManager, "overlaycomplete", (event) => {
+  google.maps.event.addListener(drawingManager, 'overlaycomplete', (event) => {
     let coords = (event.overlay.getPath().getArray())
     let points = []
     coords.forEach((element) => {
@@ -178,11 +185,11 @@ window.initMap = () => {
     var closePoly = points[0]
     points.push(closePoly)
     let fence = {
-      "type": "Feature",
-      "features": settings.shapeOptions,
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [points]
+      'type': 'Feature',
+      'features': settings.shapeOptions,
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [points]
       }
     }
     fences.push(fence)
@@ -227,12 +234,12 @@ function refreshView () {
 function postData(geoData, route) {
   const url = `http://${DEV_NODE}:6969/${route}`
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(geoData),
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     },
-    credentials: "omit"
+    credentials: 'omit'
   }).then((response) => {
     return response.status
   }, function(error) {
@@ -329,7 +336,8 @@ const initialState = {
   count: 0,
   alertBoxOpen: true,
   preferenceBoxOpen: false,
-  settingBoxOpen: false
+  settingBoxOpen: false,
+
 }
 
 function reducer(state, action) {
@@ -341,12 +349,12 @@ function reducer(state, action) {
         // alerts: action.alerts,
         count: state.count + 1
       })
-    case 'ALERT_CLEARED':
-      return Object.assign({}, state, {
-        count: action.count = 0,
-        alerts: [],
-        alertBoxOpen: true
-      })
+    // case 'ALERT_CLEARED':
+    //   return Object.assign({}, state, {
+    //     count: action.count = 0,
+    //     alerts: [],
+    //     alertBoxOpen: true
+    //   })
     case 'SHOW_ALERTS':
       return Object.assign({}, state, {
         alertBoxOpen: !state.alertBoxOpen
@@ -369,8 +377,8 @@ function reducer(state, action) {
 }
 
 function accordion(elementState, level ) {
-  const active = {"className": `${level} active`}
-  const inactive = {"className": `${level}`}
+  const active = {className: `${level} active`}
+  const inactive = {className: `${level}`}
   if (elementState === true) {
     return active
   } else {
@@ -403,40 +411,40 @@ function AlertMonitor() {
 
   return (
     React.createElement(
-      "div",
-      { "className": "ui styled accordion", id: "accordion-menu" },
+      'div',
+      { className: 'ui styled accordion', id: 'accordion-menu' },
       React.createElement(
-        "div",
+        'div',
         accordion(alertBoxOpen, 'title'),
-        React.createElement("i", { "className": "dropdown icon", onClick: handleClickAlerts}),
-          "Alerts"
+        React.createElement('i', { className: 'dropdown icon', onClick: handleClickAlerts}),
+          'Alerts'
       ),
       React.createElement(
-        "div", accordion(alertBoxOpen, 'content'),
+        'div', accordion(alertBoxOpen, 'content'),
         React.createElement(
-          "div",
-          {  id: "alertsList", className: "ui list" },
+          'div',
+          {  id: 'alertsList', className: 'ui list' },
           alerts.reverse().map((alert, i) =>
             i === 0
             ? React.createElement(
-                "div",
-                {className: "item", key: i},
+                'div',
+                {className: 'item', key: i},
                 null,
-                React.createElement("i", {"id": "red", "className": "warning circle icon" }),
+                React.createElement('i', {id: 'red', className: 'warning circle icon' }),
                 React.createElement(
-                  "div",
-                  { "className": "content" },
+                  'div',
+                  { className: 'content' },
                   alert
                 )
               )
             : React.createElement(
-              "li",
-              {className: "item", key: i},
+              'li',
+              {className: 'item', key: i},
               null,
-              React.createElement("i", {"id": "darkred", "className": "child icon" }),
+              React.createElement('i', {id: 'darkred', className: 'child icon' }),
               React.createElement(
-                "div",
-                { "className": "content" },
+                'div',
+                { className: 'content' },
                 alert
               )
             )
@@ -444,47 +452,125 @@ function AlertMonitor() {
         )
       ),
       React.createElement(
-        "div",
+        'div',
         accordion(preferenceBoxOpen, 'title'),
-        React.createElement("i", { "className": "dropdown icon", onClick: handleClickPrefs}),
-          "Preferences"
+        React.createElement('i', { className: 'dropdown icon', onClick: handleClickPrefs}),
+          'Preferences'
       ),
       React.createElement(
-        "div", accordion(preferenceBoxOpen, 'content'),
+        'div', accordion(preferenceBoxOpen, 'content'),
         React.createElement(
-          "div",
-          {  id: "preferences", className: "ui list" },
+          'div',
+          {  id: 'preferences', className: 'ui list' },
             React.createElement(
-              "div",
-              {className: "item"},
+              'div',
+              {className: 'item'},
               null,
               React.createElement(
-                "div",
-                { className: "content" },
-                null,
+                'div',
+                { className: 'content' },
+                React.createElement(
+                  List,
+                  { divided: true, relaxed: true },
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'map', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' },
+                        'Geofence syling options'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current fill color: ${settings.shapeOptions.fillColor}`
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current fill opacity: ${settings.shapeOptions.fillOpacity}`
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current stroke weight: ${settings.shapeOptions.strokeWeight}`
+                      )
+                    )
+                  )
+                )
               )
             )
         )
       ),
       React.createElement(
-        "div",
+        'div',
         accordion(settingBoxOpen, 'title'),
-        React.createElement("i", { "className": "dropdown icon", onClick: handleClickSettings}),
-          "Settings"
+        React.createElement('i', { className: 'dropdown icon', onClick: handleClickSettings}),
+          'Settings'
       ),
       React.createElement(
-        "div", accordion(settingBoxOpen, 'content'),
+        'div', accordion(settingBoxOpen, 'content'),
         React.createElement(
-          "div",
-          {  id: "settings", className: "ui list" },
+          'div',
+          {  id: 'settings', className: 'ui list' },
             React.createElement(
-              "div",
-              {className: "item"},
+              'div',
+              {className: 'item'},
               null,
               React.createElement(
-                "div",
-                { className: "content" },
-                null,
+                'div',
+                { className: 'content' },
+                React.createElement(
+                  List,
+                  { divided: true, relaxed: true },
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'setting', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' },
+                        'Map Center'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current latitude value: ${settings.mapCenter.lat}`
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current longitude value: ${settings.mapCenter.lng}`
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'setting', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' },
+                        'Min Distance Between Markers'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current minimum distance: ${settings.distanceBetweenMarkers}`
+                      )
+                    )
+                  )
+                )
               )
             )
         )
