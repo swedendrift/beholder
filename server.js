@@ -1,21 +1,22 @@
-const {MongoClient} = require('mongodb')
 const express = require('express')
+const app = express()
+const PORT = process.env.PORT || 6969
+
 const bodyParser = require('body-parser')
+const jsonParser = bodyParser.json()
 const logger = require('morgan')
 const path = require('path')
 const fs = require('fs')
-const app = express()
-const jsonParser = bodyParser.json()
-const PORT = process.env.PORT || 6969
+
+const {MongoClient} = require('mongodb')
 const MONGO = 'mongodb://localhost:27017/beholder'
 
 const logpath = path.join(__dirname, './server.log')
 const accessLogStream = fs.createWriteStream(logpath, {flags: 'a'})
-app.use(logger('combined', {stream: accessLogStream}));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(logger('combined', {stream: accessLogStream}))
+app.use(bodyParser.urlencoded({extended: false}))
 
-const staticPath = path.join(__dirname, '/public')
-app.use(express.static(staticPath));
+app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/coords', (req, res) => {
   const {MongoClient} = require('mongodb')
