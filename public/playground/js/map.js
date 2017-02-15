@@ -7,8 +7,8 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const Redux = require('redux')
 
-// const DEV_NODE = '192.168.0.8'
-const DEV_NODE = '192.168.1.169'
+const DEV_NODE = '192.168.0.8'
+// const DEV_NODE = '192.168.1.169'
 var map
 
 const retro =
@@ -144,7 +144,7 @@ window.initMap = () => {
   var fences = []
   var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453)
   var mapOptions = {
-    zoom: 18,
+    zoom: 15,
     center: homeLatlng,
     mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
@@ -317,14 +317,16 @@ function fetchCoordinates () {
 }
 
 document.getElementById('get-plots').addEventListener('click', () => {
+  store.dispatch({ type: 'ALERT_CLEARED'})
   fetchCoordinates()
+
 },false)
 
 /* react components here for now */
 const initialState = {
   alerts: [],
   count: 0,
-  alertBoxOpen: false,
+  alertBoxOpen: true,
   preferenceBoxOpen: false,
   settingBoxOpen: false
 }
@@ -341,6 +343,7 @@ function reducer(state, action) {
     case 'ALERT_CLEARED':
       return Object.assign({}, state, {
         count: action.count = 0,
+        alerts: [],
         alertBoxOpen: true
       })
     case 'SHOW_ALERTS':
@@ -412,9 +415,9 @@ function AlertMonitor() {
             i === 0
             ? React.createElement(
                 "div",
-                {id: "red", className: "item", key: i},
+                {className: "item", key: i},
                 null,
-                React.createElement("i", { "className": "warning circle icon" }),
+                React.createElement("i", {"id": "red", "className": "warning circle icon" }),
                 React.createElement(
                   "div",
                   { "className": "content" },
@@ -425,7 +428,7 @@ function AlertMonitor() {
               "li",
               {className: "item", key: i},
               null,
-              React.createElement("i", { "className": "child icon" }),
+              React.createElement("i", {"id": "darkred", "className": "child icon" }),
               React.createElement(
                 "div",
                 { "className": "content" },
@@ -445,7 +448,7 @@ function AlertMonitor() {
         "div", accordion(preferenceBoxOpen, 'content'),
         React.createElement(
           "div",
-          {  id: "alertsList", className: "ui list" },
+          {  id: "preferences", className: "ui list" },
             React.createElement(
               "div",
               {className: "item"},
@@ -468,7 +471,7 @@ function AlertMonitor() {
         "div", accordion(settingBoxOpen, 'content'),
         React.createElement(
           "div",
-          {  id: "alertsList", className: "ui list" },
+          {  id: "settings", className: "ui list" },
             React.createElement(
               "div",
               {className: "item"},

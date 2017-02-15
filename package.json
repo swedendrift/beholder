@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "trans": "babel public/playground/js/map.js --out-file public/playground/js/default.js"
+    "trans": "browserify -t babelify map.js -o default.js"
   },
   "repository": {
     "type": "git",
