@@ -324,6 +324,7 @@ document.getElementById('get-plots').addEventListener('click', () => {
 
 /* react components here for now */
 const initialState = {
+  loggedIn: false,
   alerts: [],
   count: 0,
   alertBoxOpen: true,
@@ -357,6 +358,10 @@ function reducer(state, action) {
     case 'SHOW_SETTINGS':
       return Object.assign({}, state, {
         settingBoxOpen: !state.settingBoxOpen
+      })
+      case 'AUTH_ACTION':
+        return Object.assign({}, state, {
+        loggedIn: !state.loggedIn
       })
     default:
       return state;
