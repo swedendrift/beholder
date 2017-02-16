@@ -2,7 +2,7 @@
 <widget id="com.swedendrift.beholder" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Beholder</name>
   <description>
-      A sample Apache Cordova application that responds to the deviceready event.
+    A safety application for the modern age
   </description>
   <author email="dev@cordova.apache.org" href="http://cordova.io">
       Apache Cordova Team
