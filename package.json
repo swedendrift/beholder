@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "trans": "babel public/playground/js/map.js --out-file public/playground/js/default.js"
+    "trans": "browserify -t babelify map.js -o bundle.js"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,9 @@
     "cordova",
     "node.js",
     "express.js",
-    "mongodb"
+    "mongodb",
+    "react",
+    "redux"
   ],
   "author": "Erick Lee",
   "license": "ISC",
@@ -33,6 +35,7 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
+    "semantic-ui-react": "^0.64.8",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
