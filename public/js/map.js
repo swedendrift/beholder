@@ -6,10 +6,11 @@ MarkerClusterer
 const React = require('react')
 const ReactDOM = require('react-dom')
 const Redux = require('redux')
+let { List } = require('semantic-ui-react')
 
-// const DEV_NODE = '192.168.0.8'
-const DEV_NODE = '192.168.1.169'
-var map
+const NODE = '172.31.11.36'
+
+let map
 
 const retro =
    [
@@ -126,7 +127,7 @@ const retro =
 var settings = {
   // store markers and polys in GeoJSON and build
   // converters to googleLatLngs, objects and markers
-  distanceBetweenMarkers: 5,
+  distanceBetweenMarkers: "NOT CURRENTLY ACTIVE",
   geofences: [],
   markers: [],
   shapeOptions: {
@@ -137,14 +138,17 @@ var settings = {
     editable: false,
     draggable: true,
     zIndex: 1
+  },
+  mapCenter: {
+    lat: 37.3310207,
+    lng: -122.0293453
   }
 }
 
 window.initMap = () => {
-  var fences = []
-  var homeLatlng = new google.maps.LatLng(37.3310207, -122.0293453)
-  var mapOptions = {
-    zoom: 18,
+  let homeLatlng = new google.maps.LatLng(settings.mapCenter.lat, settings.mapCenter.lng)
+  let mapOptions = {
+    zoom: 11,
     center: homeLatlng,
     mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
@@ -153,11 +157,11 @@ window.initMap = () => {
   // create a new map
   map = new google.maps.Map(document.getElementById('map'), mapOptions)
   map.data.setStyle(settings.shapeOptions)
-  var styledMapType = new google.maps.StyledMapType(retro, {name: 'retro'})
+  const styledMapType = new google.maps.StyledMapType(retro, {name: 'retro'})
   map.mapTypes.set('retro', styledMapType);
-  map.setMapTypeId('retro')
+  map.setMapTypeId('roadmap')
   // create a drawing manager instance - **replace with data layer
-  var drawingManager = new google.maps.drawing.DrawingManager({
+  const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
     drawingControl: true,
     drawingControlOptions: {
@@ -167,31 +171,70 @@ window.initMap = () => {
     polygonOptions: settings.shapeOptions
   })
   // create a google listener for posting new geofences to mongodb
-  google.maps.event.addListener(drawingManager, "overlaycomplete", (event) => {
-    let coords = (event.overlay.getPath().getArray())
+  google.maps.event.addListener(drawingManager, 'overlaycomplete', (event) => {
+    let fences = [] // clear fences array
     let points = []
+    const coords = (event.overlay.getPath().getArray())
     coords.forEach((element) => {
       let point = [element.lng(), element.lat()]
       points.push(point)
     })
     // add the first point to the end to close the polygon
-    var closePoly = points[0]
+    //  winding is automatic with GeoJSON -- test and remove drawingManager
+    const closePoly = points[0]
     points.push(closePoly)
-    let fence = {
-      "type": "Feature",
-      "features": settings.shapeOptions,
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [points]
+    const fence = {
+      'type': 'Feature',
+      'features': settings.shapeOptions,
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [points]
       }
     }
     fences.push(fence)
     postData(fences, 'fences')
+    // see if this can be more elegant than refreshing the whole thing
+    // this partially solves the new polygon bug
+    settings.geofences = []
+    refreshView()
+    fetchCoordinates()
   })
 
   drawingManager.setMap(map)
   refreshView()
   fetchCoordinates()
+
+  google.maps.event.addListener(map, "rightclick", function(event) {
+      var lat = event.latLng.lat()
+      var lng = event.latLng.lng()
+      alert("Lat=" + lat + "; Lng=" + lng)
+  })
+}
+/* END OF INITMAP */
+
+function postData(geoData, route) {
+  const url = `http://${NODE}:80/${route}`
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(geoData),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'omit'
+  }).then((response) => {
+    return response.status
+  }, function(error) {
+    error.message
+  })
+}
+
+function search(route) {
+  const url = `http://${NODE}:80/${route}`
+  return fetch(url).then((response) => {
+    return response.json()
+  }).catch((error) => {
+    console.log(`There was an error with your request: ${error}`)
+  })
 }
 
 function refreshView () {
@@ -224,31 +267,6 @@ function refreshView () {
   })
 }
 
-function postData(geoData, route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
-  fetch(url, {
-    method: "POST",
-    body: JSON.stringify(geoData),
-    headers: {
-      "Content-Type": "application/json"
-    },
-    credentials: "omit"
-  }).then((response) => {
-    return response.status
-  }, function(error) {
-    error.message
-  })
-}
-
-function search(route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
-  return fetch(url).then((response) => {
-    return response.json()
-  }).catch((error) => {
-    console.log(`There was an error with your request: ${error}`)
-  })
-}
-
 function handleMarkerData(geoJSONdata) {
   const markerLatLngs = geoJSONdata.map((element) => {
     // Create the Google LatLng objects from GeoJSON data
@@ -258,18 +276,8 @@ function handleMarkerData(geoJSONdata) {
     return latLng
     })
 
-  var filtered = []
-  // test the distance between maker coordinates **optimize
-  for (let i = 0; i < markerLatLngs.length -1; i++) {
-    let distance = google.maps.geometry.spherical.computeDistanceBetween(markerLatLngs[i], markerLatLngs[i + 1])
-    if (i === 0) {
-      filtered.unshift(markerLatLngs[i])
-    } else if (distance > settings.distanceBetweenMarkers && distance !== 0) {
-      filtered.unshift(markerLatLngs[i])
-    }
-  }
   // transform data into objects for making markers
-  let coordinates = filtered.map((element) => {
+  let coordinates = markerLatLngs.map((element) => {
     let coordObj = {
       lat: element.lat(),
       lng: element.lng()
@@ -317,16 +325,21 @@ function fetchCoordinates () {
 }
 
 document.getElementById('get-plots').addEventListener('click', () => {
+  store.dispatch({ type: 'ALERT_CLEARED'})
   fetchCoordinates()
+
 },false)
+
 
 /* react components here for now */
 const initialState = {
+  loggedIn: false,
   alerts: [],
   count: 0,
-  alertBoxOpen: false,
+  alertBoxOpen: true,
   preferenceBoxOpen: false,
-  settingBoxOpen: false
+  settingBoxOpen: false,
+  drawingControls: true
 }
 
 function reducer(state, action) {
@@ -341,6 +354,7 @@ function reducer(state, action) {
     case 'ALERT_CLEARED':
       return Object.assign({}, state, {
         count: action.count = 0,
+        alerts: [],
         alertBoxOpen: true
       })
     case 'SHOW_ALERTS':
@@ -355,14 +369,18 @@ function reducer(state, action) {
       return Object.assign({}, state, {
         settingBoxOpen: !state.settingBoxOpen
       })
+      case 'SHOW_DRAWING':
+        return Object.assign({}, state, {
+        loggedIn: !state.drawingControls
+      })
     default:
       return state;
   }
 }
 
 function accordion(elementState, level ) {
-  const active = {"className": `${level} active`}
-  const inactive = {"className": `${level}`}
+  const active = {className: `${level} active`}
+  const inactive = {className: `${level}`}
   if (elementState === true) {
     return active
   } else {
@@ -377,10 +395,6 @@ function AlertMonitor() {
   const preferenceBoxOpen = store.getState().preferenceBoxOpen
   const settingBoxOpen = store.getState().settingBoxOpen
 
-  // const handleClickAlerts = () => {
-  //   store.dispatch({ type: 'ALERT_CLEARED'})
-  // }
-
   const handleClickAlerts = () => {
     store.dispatch({ type: 'SHOW_ALERTS'})
   }
@@ -393,42 +407,54 @@ function AlertMonitor() {
     store.dispatch({ type: 'SHOW_SETTINGS'})
   }
 
+  const handleRemoveData = () => {
+    // Hide the Data layer.
+    map.data.setStyle({visible: false})
+    // build a delete route for this + need to figure how to id each geofence
+  }
+
+  const handleShowControls = () => {
+    // Hide the Data layer.
+    store.dispatch({ type: 'SHOW_DRAWING'})
+    // build a delete route for this + need to figure how to id each geofence
+  }
+
   return (
     React.createElement(
-      "div",
-      { "className": "ui styled accordion", id: "accordion-menu" },
+      'div',
+      { className: 'ui styled accordion', id: 'accordion-menu' },
       React.createElement(
-        "div",
+        'div',
         accordion(alertBoxOpen, 'title'),
-        React.createElement("i", { "className": "dropdown icon", onClick: handleClickAlerts}),
-          "Alerts"
+        React.createElement('i', { className: 'dropdown icon', onClick: handleClickAlerts}),
+          'Alerts'
       ),
       React.createElement(
-        "div", accordion(alertBoxOpen, 'content'),
+        'div', accordion(alertBoxOpen, 'content'),
         React.createElement(
-          "div",
-          {  id: "alertsList", className: "ui list" },
+          'div',
+          {  id: 'alertsList', className: 'ui list' },
           alerts.reverse().map((alert, i) =>
             i === 0
             ? React.createElement(
-                "div",
-                {id: "red", className: "item", key: i},
+                'div',
+                {className: 'item', key: i},
                 null,
-                React.createElement("i", { "className": "warning circle icon" }),
+                React.createElement('i', {id: 'red', className: 'warning circle icon' }),
                 React.createElement(
-                  "div",
-                  { "className": "content" },
+                  'div',
+                  { className: 'content' },
                   alert
                 )
               )
             : React.createElement(
-              "li",
-              {className: "item", key: i},
+              'li',
+              {className: 'item', key: i},
               null,
-              React.createElement("i", { "className": "child icon" }),
+              React.createElement('i', {id: 'darkred', className: 'child icon' }),
               React.createElement(
-                "div",
-                { "className": "content" },
+                'div',
+                { className: 'content' },
                 alert
               )
             )
@@ -436,47 +462,144 @@ function AlertMonitor() {
         )
       ),
       React.createElement(
-        "div",
+        'div',
         accordion(preferenceBoxOpen, 'title'),
-        React.createElement("i", { "className": "dropdown icon", onClick: handleClickPrefs}),
-          "Preferences"
+        React.createElement('i', { className: 'dropdown icon', onClick: handleClickPrefs}),
+          'Preferences'
       ),
       React.createElement(
-        "div", accordion(preferenceBoxOpen, 'content'),
+        'div', accordion(preferenceBoxOpen, 'content'),
         React.createElement(
-          "div",
-          {  id: "alertsList", className: "ui list" },
+          'div',
+          {  id: 'preferences', className: 'ui list' },
             React.createElement(
-              "div",
-              {className: "item"},
+              'div',
+              {className: 'item'},
               null,
               React.createElement(
-                "div",
-                { className: "content" },
-                null,
+                'div',
+                { className: 'content' },
+                React.createElement(
+                  List,
+                  { divided: true, relaxed: true },
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'map', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' , id: 'geofenceStyling', onClick: handleRemoveData},
+                        'Geofence syling options'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current fill color: ${settings.shapeOptions.fillColor}`
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current fill opacity: ${settings.shapeOptions.fillOpacity}`
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current stroke weight: ${settings.shapeOptions.strokeWeight}`
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'map', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' , id: 'showControls', onClick: handleShowControls},
+                        'Toggle drawing controls'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Drawing controls are on: ${store.getState().drawingControls}`
+                      )
+                    )
+                  )
+                )
               )
             )
         )
       ),
       React.createElement(
-        "div",
+        'div',
         accordion(settingBoxOpen, 'title'),
-        React.createElement("i", { "className": "dropdown icon", onClick: handleClickSettings}),
-          "Settings"
+        React.createElement('i', { className: 'dropdown icon', onClick: handleClickSettings}),
+          'Settings'
       ),
       React.createElement(
-        "div", accordion(settingBoxOpen, 'content'),
+        'div', accordion(settingBoxOpen, 'content'),
         React.createElement(
-          "div",
-          {  id: "alertsList", className: "ui list" },
+          'div',
+          {  id: 'settings', className: 'ui list' },
             React.createElement(
-              "div",
-              {className: "item"},
+              'div',
+              {className: 'item'},
               null,
               React.createElement(
-                "div",
-                { className: "content" },
-                null,
+                'div',
+                { className: 'content' },
+                React.createElement(
+                  List,
+                  { divided: true, relaxed: true },
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'setting', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' },
+                        'Map Center'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current latitude value: ${settings.mapCenter.lat}`
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current longitude value: ${settings.mapCenter.lng}`
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    List.Item,
+                    null,
+                    React.createElement(List.Icon, { name: 'setting', size: 'large', verticalAlign: 'top' }),
+                    React.createElement(
+                      List.Content,
+                      null,
+                      React.createElement(
+                        List.Header,
+                        { as: 'a' },
+                        'Min Distance Between Markers'
+                      ),
+                      React.createElement(
+                        List.Description,
+                        { as: 'a' },
+                        `Current minimum distance: ${settings.distanceBetweenMarkers}`
+                      )
+                    )
+                  )
+                )
               )
             )
         )
@@ -493,8 +616,7 @@ const store = Redux.createStore(reducer, initialState,
 // var store = Redux.createStore(reducer, initialState)
 
 function redraw() {
-  ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'));
+  ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'))
 }
-redraw();
-
+redraw()
 store.subscribe(redraw)

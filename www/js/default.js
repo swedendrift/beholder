@@ -1,5 +1,5 @@
-const DEV_NODE = '192.168.0.8'
-// const DEV_NODE = '192.168.1.169'
+const NODE = '54.153.93.72'
+
 
 var app = {
     initialize: function() {
@@ -29,7 +29,7 @@ var onGeoSuccess = function (position) {
 }
 
 function postData(locationObject, route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
+  const url = `http://${NODE}:6969/${route}`
   fetch(url, {
     method: "POST",
     body: JSON.stringify(locationObject),
@@ -53,15 +53,20 @@ function onGeoError(error) {
 }
 
 app.initialize();
-var watchId
+
+let beaconInterval
 
 document.getElementById("get-position").addEventListener("click", () => {
-  watchId = navigator.geolocation.watchPosition(onGeoSuccess, onGeoError,
-    { enableHighAccuracy: true })
-  }, false)
+  beaconInterval = window.setInterval(() => {
+    let beaconId = navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError,
+      {enableHighAccuracy: true, timeout: 3000, maximumAge: 0})
+    navigator.geolocation.clearWatch(beaconId)
+  }, 10000)
+
+}, false)
 
 
 document.getElementById("clear-watch").addEventListener("click", () => {
-  navigator.geolocation.clearWatch(watchId)
-  console.log(`Cleared watch on watchId: ${watchId}`)
+  clearInterval(beaconInterval)
+  console.log(`Cleared watch on watchId: ${beaconInterval}`)
 }, false)

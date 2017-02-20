@@ -98,7 +98,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		9KZZSEvVS9s2vRs3K0soziWgZTw=
+		1V4NWDMhesVh61krNoJ/JdF4NJs=
 		</data>
 		<key>LaunchImage-568h@2x.png</key>
 		<data>
@@ -166,7 +166,7 @@
 		</data>
 		<key>config.xml</key>
 		<data>
-		U1u8WS1ICwlmk9zigzxcv69tTZY=
+		lVQv8rsb/Gi1NCyJz/pxzm39ue4=
 		</data>
 		<key>www/cordova-js-src/exec.js</key>
 		<data>
@@ -266,7 +266,7 @@
 		</data>
 		<key>www/js/default.js</key>
 		<data>
-		Ip1om0JIHHnmS2kEIrHJZmPvko4=
+		RNvrmiUJ0NGNol8MPf0PSW6MJmE=
 		</data>
 		<key>www/js/fetchPolyfill.js</key>
 		<data>
@@ -713,11 +713,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			U1u8WS1ICwlmk9zigzxcv69tTZY=
+			lVQv8rsb/Gi1NCyJz/pxzm39ue4=
 			</data>
 			<key>hash2</key>
 			<data>
-			jfU8vYG6EOrumHMZ/qQplTluvQFX2ah528PEDld4qSY=
+			sjtlRlN88h13H+j2XgsJ8WErVEqeGlleyaAuRx8m9FM=
 			</data>
 		</dict>
 		<key>www/cordova-js-src/exec.js</key>
@@ -988,11 +988,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Ip1om0JIHHnmS2kEIrHJZmPvko4=
+			RNvrmiUJ0NGNol8MPf0PSW6MJmE=
 			</data>
 			<key>hash2</key>
 			<data>
-			syZ5bBJMUgSUndwfJz4f4vL4P5X+viVV1h7r1NY0CmY=
+			dMT+CffJsRKPJYsNzf5/rw7mP1totFkP3ugCYVve0KM=
 			</data>
 		</dict>
 		<key>www/js/fetchPolyfill.js</key>
