@@ -20,7 +20,7 @@
     </feature>
     <name>Beholder</name>
     <description>
-      A sample Apache Cordova application that responds to the deviceready event.
+    A safety application for the modern age
   </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
       Apache Cordova Team
@@ -29,6 +29,9 @@
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <gap:config-file overwrite="true" parent="UIBackgroundModes" platform="ios">
         <array>

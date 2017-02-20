@@ -127,7 +127,7 @@ const retro =
 var settings = {
   // store markers and polys in GeoJSON and build
   // converters to googleLatLngs, objects and markers
-  distanceBetweenMarkers: 5,
+  distanceBetweenMarkers: "NOT CURRENTLY ACTIVE",
   geofences: [],
   markers: [],
   shapeOptions: {
@@ -148,7 +148,7 @@ var settings = {
 window.initMap = () => {
   let homeLatlng = new google.maps.LatLng(settings.mapCenter.lat, settings.mapCenter.lng)
   let mapOptions = {
-    zoom: 15,
+    zoom: 11,
     center: homeLatlng,
     mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
@@ -159,7 +159,7 @@ window.initMap = () => {
   map.data.setStyle(settings.shapeOptions)
   const styledMapType = new google.maps.StyledMapType(retro, {name: 'retro'})
   map.mapTypes.set('retro', styledMapType);
-  map.setMapTypeId('retro')
+  map.setMapTypeId('roadmap')
   // create a drawing manager instance - **replace with data layer
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -203,6 +203,12 @@ window.initMap = () => {
   drawingManager.setMap(map)
   refreshView()
   fetchCoordinates()
+
+  google.maps.event.addListener(map, "rightclick", function(event) {
+      var lat = event.latLng.lat()
+      var lng = event.latLng.lng()
+      alert("Lat=" + lat + "; Lng=" + lng)
+  })
 }
 /* END OF INITMAP */
 
@@ -270,18 +276,18 @@ function handleMarkerData(geoJSONdata) {
     return latLng
     })
 
-  var filtered = []
-  // test the distance between maker coordinates **optimize
-  for (let i = 0; i < markerLatLngs.length -1; i++) {
-    let distance = google.maps.geometry.spherical.computeDistanceBetween(markerLatLngs[i], markerLatLngs[i + 1])
-    if (i === 0) {
-      filtered.unshift(markerLatLngs[i])
-    } else if (distance > settings.distanceBetweenMarkers && distance !== 0) {
-      filtered.unshift(markerLatLngs[i])
-    }
-  }
+  // var filtered = []
+  // // test the distance between maker coordinates **optimize
+  // for (let i = 0; i < markerLatLngs.length -1; i++) {
+  //   let distance = google.maps.geometry.spherical.computeDistanceBetween(markerLatLngs[i], markerLatLngs[i + 1])
+  //   if (i === 0) {
+  //     filtered.unshift(markerLatLngs[i])
+  //   } else if (distance > settings.distanceBetweenMarkers && distance !== 0) {
+  //     filtered.unshift(markerLatLngs[i])
+  //   }
+  // }
   // transform data into objects for making markers
-  let coordinates = filtered.map((element) => {
+  let coordinates = markerLatLngs.map((element) => {
     let coordObj = {
       lat: element.lat(),
       lng: element.lng()
@@ -333,6 +339,7 @@ document.getElementById('get-plots').addEventListener('click', () => {
   fetchCoordinates()
 
 },false)
+
 
 /* react components here for now */
 const initialState = {
