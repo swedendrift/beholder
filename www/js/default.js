@@ -1,5 +1,5 @@
-const DEV_NODE = '192.168.0.8'
-// const DEV_NODE = '192.168.1.169'
+const NODE = '54.153.93.72'
+
 
 var app = {
     initialize: function() {
@@ -29,7 +29,7 @@ var onGeoSuccess = function (position) {
 }
 
 function postData(locationObject, route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
+  const url = `http://${NODE}:6969/${route}`
   fetch(url, {
     method: "POST",
     body: JSON.stringify(locationObject),
