@@ -8,7 +8,8 @@ const ReactDOM = require('react-dom')
 const Redux = require('redux')
 let { List } = require('semantic-ui-react')
 
-const NODE = '172.31.11.36'
+// const NODE = '172.31.11.36'
+const NODE = '192.168.0.8'
 
 let map
 
@@ -608,12 +609,7 @@ function AlertMonitor() {
   )
 }
 
-/* eslint-disable no-underscore-dangle */
-const store = Redux.createStore(reducer, initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
-/* eslint-enable */
-// var store = Redux.createStore(reducer, initialState)
+const store = Redux.createStore(reducer, initialState)
 
 function redraw() {
   ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'))
