@@ -166,7 +166,7 @@
 		</data>
 		<key>config.xml</key>
 		<data>
-		lVQv8rsb/Gi1NCyJz/pxzm39ue4=
+		gNVPzeOlCnfa0Vth81HLgspWJyQ=
 		</data>
 		<key>www/cordova-js-src/exec.js</key>
 		<data>
@@ -182,91 +182,31 @@
 		</data>
 		<key>www/cordova_plugins.js</key>
 		<data>
-		d0GacBXPuQqOP18yuIva/bGoZBU=
+		flrWcMII4f52m1KbPVVOMiln1rc=
 		</data>
 		<key>www/css/default.css</key>
 		<data>
-		E7nGm1/jHdn3noppXivoF+0vEqQ=
+		RQgCFiK3Ep3TtOiWmywZ2hytV2k=
 		</data>
 		<key>www/imgs/beholder-animated-200.gif</key>
 		<data>
 		m9N4xGqh40C70mLtYA3d9YaWwCc=
 		</data>
+		<key>www/imgs/eye2208.png</key>
+		<data>
+		aOz9RDCJBkS4ssCX6I0Zz8i3ods=
+		</data>
 		<key>www/imgs/favicon.ico</key>
 		<data>
 		ccsrC/9KWagdwMlOCFB3XYUiHtI=
 		</data>
-		<key>www/imgs/icon-40.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-40@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-50.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-50@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-60@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-60@3x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-72.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-72@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-76.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-76@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-83.5@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-small.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-small@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon-small@3x.png</key>
-		<data>
-		xvWEUmwTbw5Uu4zWScE5lTjNLf4=
-		</data>
-		<key>www/imgs/icon.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
-		<key>www/imgs/icon@2x.png</key>
-		<data>
-		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-		</data>
 		<key>www/index.html</key>
 		<data>
-		0LyTme2aoSttu6HcZqr0XFKDH1w=
+		XeEF9I1BLrki92j49/4zpUTDTVU=
 		</data>
 		<key>www/js/default.js</key>
 		<data>
-		RNvrmiUJ0NGNol8MPf0PSW6MJmE=
+		fFuAeqnARkCwMhW8vjJrbTODno0=
 		</data>
 		<key>www/js/fetchPolyfill.js</key>
 		<data>
@@ -287,6 +227,10 @@
 		<key>www/plugins/cordova-plugin-geolocation/www/geolocation.js</key>
 		<data>
 		DBMSf1DRKjXfKMDgaSJHjnx+wgI=
+		</data>
+		<key>www/plugins/cordova-plugin-splashscreen/www/splashscreen.js</key>
+		<data>
+		n2E0W8B/grOxM2ORx/haAYOWIcA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -713,11 +657,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			lVQv8rsb/Gi1NCyJz/pxzm39ue4=
+			gNVPzeOlCnfa0Vth81HLgspWJyQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			sjtlRlN88h13H+j2XgsJ8WErVEqeGlleyaAuRx8m9FM=
+			l/mR1Ozp/w0ezMWGRTTorCQ5z/wkUcphGBMCIx4N8JM=
 			</data>
 		</dict>
 		<key>www/cordova-js-src/exec.js</key>
@@ -757,22 +701,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			d0GacBXPuQqOP18yuIva/bGoZBU=
+			flrWcMII4f52m1KbPVVOMiln1rc=
 			</data>
 			<key>hash2</key>
 			<data>
-			c5OBENBn12LGMWDwOwYrbgRXcsYHDpbipa+AZ/IfMZw=
+			4rxt0lAkngwgUkGDUefP66aRiuN7NF6eUPWm3s1xSUs=
 			</data>
 		</dict>
 		<key>www/css/default.css</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			E7nGm1/jHdn3noppXivoF+0vEqQ=
+			RQgCFiK3Ep3TtOiWmywZ2hytV2k=
 			</data>
 			<key>hash2</key>
 			<data>
-			/wQTH/QBsF2ilUhR14+kx7/NgrVgGjDFedEd/7oSZ9c=
+			bCgSrhq3Vb/C2FjvWZMlRvLuA3FlNWsYQB6xRyP+U3Q=
 			</data>
 		</dict>
 		<key>www/imgs/beholder-animated-200.gif</key>
@@ -786,6 +730,17 @@
 			R2Xai4TI1fUZyCgO8Am2or2OAGXwpax18v6IX1At6jg=
 			</data>
 		</dict>
+		<key>www/imgs/eye2208.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aOz9RDCJBkS4ssCX6I0Zz8i3ods=
+			</data>
+			<key>hash2</key>
+			<data>
+			syk1rUR1ZBgy0Mh7BfeJEk8eVMUh9et3/ZTbwTECbAU=
+			</data>
+		</dict>
 		<key>www/imgs/favicon.ico</key>
 		<dict>
 			<key>hash</key>
@@ -797,202 +752,26 @@
 			PhOW3oSs5yBoctzwxX81i708UliwGFDnp6cm7kuzEKQ=
 			</data>
 		</dict>
-		<key>www/imgs/icon-40.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-40@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-50.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-50@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-60@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-60@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-72.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-72@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-76.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-76@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-83.5@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-small.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-small@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon-small@3x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xvWEUmwTbw5Uu4zWScE5lTjNLf4=
-			</data>
-			<key>hash2</key>
-			<data>
-			T5tHpGbyU/NzzSaUVgYPTXp5OdEtDrz7M2/rayWRHHo=
-			</data>
-		</dict>
-		<key>www/imgs/icon.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
-		<key>www/imgs/icon@2x.png</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2jmj7l5rSw0yVb/vlWAYkK/YBwk=
-			</data>
-			<key>hash2</key>
-			<data>
-			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
-			</data>
-		</dict>
 		<key>www/index.html</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			0LyTme2aoSttu6HcZqr0XFKDH1w=
+			XeEF9I1BLrki92j49/4zpUTDTVU=
 			</data>
 			<key>hash2</key>
 			<data>
-			xFqXXUlU0uGoIjfJ3Si89XJs4rdYHWm4C0+WvvlnhNw=
+			UcwkKR+S30qqroNtL6n+dVVGH8SCbiRlZ1GOf/1O2vc=
 			</data>
 		</dict>
 		<key>www/js/default.js</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			RNvrmiUJ0NGNol8MPf0PSW6MJmE=
+			fFuAeqnARkCwMhW8vjJrbTODno0=
 			</data>
 			<key>hash2</key>
 			<data>
-			dMT+CffJsRKPJYsNzf5/rw7mP1totFkP3ugCYVve0KM=
+			4udV+DDNOcjQIXewz2Z7EgpBFLAmUE19GCPlMjaHnow=
 			</data>
 		</dict>
 		<key>www/js/fetchPolyfill.js</key>
@@ -1048,6 +827,17 @@
 			<key>hash2</key>
 			<data>
 			c0FvNwJUoj6DTFiJbDJ//4pUO/Nc0Pmmq+lh9eVocuE=
+			</data>
+		</dict>
+		<key>www/plugins/cordova-plugin-splashscreen/www/splashscreen.js</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			n2E0W8B/grOxM2ORx/haAYOWIcA=
+			</data>
+			<key>hash2</key>
+			<data>
+			YSn19P0zRIG9MxdesT37iqYB1WqXVOFIXyjmnTn6foU=
 			</data>
 		</dict>
 	</dict>
