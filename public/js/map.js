@@ -8,8 +8,7 @@ const ReactDOM = require('react-dom')
 const Redux = require('redux')
 let { List } = require('semantic-ui-react')
 
-// const NODE = '172.31.11.36'
-const NODE = '192.168.0.8'
+const NODE = 'localhost'
 
 let map
 
@@ -141,8 +140,8 @@ var settings = {
     zIndex: 1
   },
   mapCenter: {
-    lat: 37.3310207,
-    lng: -122.0293453
+    lat: 37.331020,
+    lng: -122.029345
   }
 }
 
@@ -214,7 +213,7 @@ window.initMap = () => {
 /* END OF INITMAP */
 
 function postData(geoData, route) {
-  const url = `http://${NODE}:80/${route}`
+  const url = `http://${NODE}:6969/${route}`
   fetch(url, {
     method: 'POST',
     body: JSON.stringify(geoData),
@@ -230,7 +229,7 @@ function postData(geoData, route) {
 }
 
 function search(route) {
-  const url = `http://${NODE}:80/${route}`
+  const url = `http://${NODE}:6969/${route}`
   return fetch(url).then((response) => {
     return response.json()
   }).catch((error) => {

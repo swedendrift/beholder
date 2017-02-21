@@ -31,6 +31,14 @@ module.exports = [
         "clobbers": [
             "navigator.geolocation"
         ]
+    },
+    {
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -38,7 +46,8 @@ module.exports.metadata =
 {
     "cordova-plugin-compat": "1.1.0",
     "cordova-plugin-geolocation": "2.4.2-dev",
-    "cordova-plugin-whitelist": "1.3.1"
+    "cordova-plugin-whitelist": "1.3.1",
+    "cordova-plugin-splashscreen": "4.0.2-dev"
 };
 // BOTTOM OF METADATA
 });

@@ -59,7 +59,6 @@ app.post('/coords', jsonParser, (req, res) => {
     db.collection('geospatial').find({geometry: {$geoIntersects: {$geometry: newPoint}}}).toArray().then((docs) => {
       Object.assign(matches, docs)
       if (matches[0] != null) {
-
         console.log('ALERT OOB DETECTED! ' + newPoint)
         db.collection('geospatial').insertOne(data, (error, result) => {
           if (error) {

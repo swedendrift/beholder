@@ -1,5 +1,16 @@
-const NODE = '54.153.93.72'
+const NODE = '192.168.1.169'
 
+var lastLoc = {
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-122.029345, 37.331020]
+  },
+  "properties": {
+    "speed": 10,
+    "heading": 0
+  }
+}
 
 var app = {
     initialize: function() {
@@ -14,6 +25,7 @@ var app = {
 }
 
 var onGeoSuccess = function (position) {
+  console.log('position')
   var currentLoc = {
     "type": "Feature",
     "geometry": {
@@ -25,7 +37,13 @@ var onGeoSuccess = function (position) {
       "heading": position.coords.heading
     }
   }
-  postData(currentLoc, 'coords')
+  if (lastLoc.geometry.coordinates[0] !== currentLoc.geometry.coordinates[0] && lastLoc.geometry.coordinates[1] !== currentLoc.geometry.coordinates[1]) {
+    lastLoc = currentLoc
+    postData(currentLoc, 'coords')
+  } else {
+    lastLoc = currentLoc
+  }
+
 }
 
 function postData(locationObject, route) {
