@@ -1,0 +1,42 @@
+#map {
+  height: 70%;
+  width: 60%;
+  top: 52px;
+  margin-left:auto;
+  margin-right:40px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border:6px solid #C9C9C9;
+  background-color:#C9C9C9;
+}
+
+#get-plots {
+  left: 30px;
+  top: 13px;
+}
+
+#signinout {
+  right: 45px;
+  top: 20px;
+}
+
+#root {
+  max-width: 30%;
+  position: absolute;
+  top: 110px;
+  left: 30px;
+  z-index: 5;
+}
+
+#red {
+  color: red;
+}
+
+#magenta {
+  color: darkred;
+}
+
+.hidden {
+  display: none;
+}
