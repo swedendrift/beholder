@@ -56363,16 +56363,6 @@ function handleMarkerData(geoJSONdata) {
     return latLng;
   });
 
-  // var filtered = []
-  // // test the distance between maker coordinates **optimize
-  // for (let i = 0; i < markerLatLngs.length -1; i++) {
-  //   let distance = google.maps.geometry.spherical.computeDistanceBetween(markerLatLngs[i], markerLatLngs[i + 1])
-  //   if (i === 0) {
-  //     filtered.unshift(markerLatLngs[i])
-  //   } else if (distance > settings.distanceBetweenMarkers && distance !== 0) {
-  //     filtered.unshift(markerLatLngs[i])
-  //   }
-  // }
   // transform data into objects for making markers
   let coordinates = markerLatLngs.map(element => {
     let coordObj = {
