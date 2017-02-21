@@ -8,8 +8,8 @@ const ReactDOM = require('react-dom')
 const Redux = require('redux')
 let { List } = require('semantic-ui-react')
 
-const DEV_NODE = '192.168.0.8'
-// const DEV_NODE = '192.168.1.169'
+const NODE = '192.168.0.8'
+// const NODE = '192.168.1.169'
 let map
 
 const retro =
@@ -213,7 +213,7 @@ window.initMap = () => {
 /* END OF INITMAP */
 
 function postData(geoData, route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
+  const url = `http://${NODE}:6969/${route}`
   fetch(url, {
     method: 'POST',
     body: JSON.stringify(geoData),
@@ -229,7 +229,7 @@ function postData(geoData, route) {
 }
 
 function search(route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
+  const url = `http://${NODE}:6969/${route}`
   return fetch(url).then((response) => {
     return response.json()
   }).catch((error) => {
@@ -276,16 +276,6 @@ function handleMarkerData(geoJSONdata) {
     return latLng
     })
 
-  // var filtered = []
-  // // test the distance between maker coordinates **optimize
-  // for (let i = 0; i < markerLatLngs.length -1; i++) {
-  //   let distance = google.maps.geometry.spherical.computeDistanceBetween(markerLatLngs[i], markerLatLngs[i + 1])
-  //   if (i === 0) {
-  //     filtered.unshift(markerLatLngs[i])
-  //   } else if (distance > settings.distanceBetweenMarkers && distance !== 0) {
-  //     filtered.unshift(markerLatLngs[i])
-  //   }
-  // }
   // transform data into objects for making markers
   let coordinates = markerLatLngs.map((element) => {
     let coordObj = {
@@ -618,12 +608,7 @@ function AlertMonitor() {
   )
 }
 
-/* eslint-disable no-underscore-dangle */
-const store = Redux.createStore(reducer, initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
-/* eslint-enable */
-// var store = Redux.createStore(reducer, initialState)
+var store = Redux.createStore(reducer, initialState)
 
 function redraw() {
   ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'))

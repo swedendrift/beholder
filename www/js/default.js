@@ -1,4 +1,5 @@
-const NODE = '54.153.93.72'
+// const NODE = '54.153.93.72'
+const NODE = '192.168.0.8'
 
 
 var app = {

@@ -56121,8 +56121,8 @@ const ReactDOM = require('react-dom');
 const Redux = require('redux');
 let { List } = require('semantic-ui-react');
 
-const NODE = '192.168.0.8';
-// const NODE = '192.168.1.169'
+const DEV_NODE = '192.168.0.8';
+// const DEV_NODE = '192.168.1.169'
 let map;
 
 const retro = [{ elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#523735' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f1e6' }] }, {
@@ -56300,7 +56300,7 @@ window.initMap = () => {
 /* END OF INITMAP */
 
 function postData(geoData, route) {
-  const url = `http://${NODE}:6969/${route}`;
+  const url = `http://${DEV_NODE}:6969/${route}`;
   fetch(url, {
     method: 'POST',
     body: JSON.stringify(geoData),
@@ -56316,7 +56316,7 @@ function postData(geoData, route) {
 }
 
 function search(route) {
-  const url = `http://${NODE}:6969/${route}`;
+  const url = `http://${DEV_NODE}:6969/${route}`;
   return fetch(url).then(response => {
     return response.json();
   }).catch(error => {
@@ -56363,6 +56363,16 @@ function handleMarkerData(geoJSONdata) {
     return latLng;
   });
 
+  // var filtered = []
+  // // test the distance between maker coordinates **optimize
+  // for (let i = 0; i < markerLatLngs.length -1; i++) {
+  //   let distance = google.maps.geometry.spherical.computeDistanceBetween(markerLatLngs[i], markerLatLngs[i + 1])
+  //   if (i === 0) {
+  //     filtered.unshift(markerLatLngs[i])
+  //   } else if (distance > settings.distanceBetweenMarkers && distance !== 0) {
+  //     filtered.unshift(markerLatLngs[i])
+  //   }
+  // }
   // transform data into objects for making markers
   let coordinates = markerLatLngs.map(element => {
     let coordObj = {
@@ -56507,7 +56517,10 @@ function AlertMonitor() {
   return React.createElement('div', { className: 'ui styled accordion', id: 'accordion-menu' }, React.createElement('div', accordion(alertBoxOpen, 'title'), React.createElement('i', { className: 'dropdown icon', onClick: handleClickAlerts }), 'Alerts'), React.createElement('div', accordion(alertBoxOpen, 'content'), React.createElement('div', { id: 'alertsList', className: 'ui list' }, alerts.reverse().map((alert, i) => i === 0 ? React.createElement('div', { className: 'item', key: i }, null, React.createElement('i', { id: 'red', className: 'warning circle icon' }), React.createElement('div', { className: 'content' }, alert)) : React.createElement('li', { className: 'item', key: i }, null, React.createElement('i', { id: 'darkred', className: 'child icon' }), React.createElement('div', { className: 'content' }, alert))))), React.createElement('div', accordion(preferenceBoxOpen, 'title'), React.createElement('i', { className: 'dropdown icon', onClick: handleClickPrefs }), 'Preferences'), React.createElement('div', accordion(preferenceBoxOpen, 'content'), React.createElement('div', { id: 'preferences', className: 'ui list' }, React.createElement('div', { className: 'item' }, null, React.createElement('div', { className: 'content' }, React.createElement(List, { divided: true, relaxed: true }, React.createElement(List.Item, null, React.createElement(List.Icon, { name: 'map', size: 'large', verticalAlign: 'top' }), React.createElement(List.Content, null, React.createElement(List.Header, { as: 'a', id: 'geofenceStyling', onClick: handleRemoveData }, 'Geofence syling options'), React.createElement(List.Description, { as: 'a' }, `Current fill color: ${settings.shapeOptions.fillColor}`), React.createElement(List.Description, { as: 'a' }, `Current fill opacity: ${settings.shapeOptions.fillOpacity}`), React.createElement(List.Description, { as: 'a' }, `Current stroke weight: ${settings.shapeOptions.strokeWeight}`))), React.createElement(List.Item, null, React.createElement(List.Icon, { name: 'map', size: 'large', verticalAlign: 'top' }), React.createElement(List.Content, null, React.createElement(List.Header, { as: 'a', id: 'showControls', onClick: handleShowControls }, 'Toggle drawing controls'), React.createElement(List.Description, { as: 'a' }, `Drawing controls are on: ${store.getState().drawingControls}`)))))))), React.createElement('div', accordion(settingBoxOpen, 'title'), React.createElement('i', { className: 'dropdown icon', onClick: handleClickSettings }), 'Settings'), React.createElement('div', accordion(settingBoxOpen, 'content'), React.createElement('div', { id: 'settings', className: 'ui list' }, React.createElement('div', { className: 'item' }, null, React.createElement('div', { className: 'content' }, React.createElement(List, { divided: true, relaxed: true }, React.createElement(List.Item, null, React.createElement(List.Icon, { name: 'setting', size: 'large', verticalAlign: 'top' }), React.createElement(List.Content, null, React.createElement(List.Header, { as: 'a' }, 'Map Center'), React.createElement(List.Description, { as: 'a' }, `Current latitude value: ${settings.mapCenter.lat}`), React.createElement(List.Description, { as: 'a' }, `Current longitude value: ${settings.mapCenter.lng}`))), React.createElement(List.Item, null, React.createElement(List.Icon, { name: 'setting', size: 'large', verticalAlign: 'top' }), React.createElement(List.Content, null, React.createElement(List.Header, { as: 'a' }, 'Min Distance Between Markers'), React.createElement(List.Description, { as: 'a' }, `Current minimum distance: ${settings.distanceBetweenMarkers}`)))))))));
 }
 
-var store = Redux.createStore(reducer, initialState);
+/* eslint-disable no-underscore-dangle */
+const store = Redux.createStore(reducer, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+/* eslint-enable */
+// var store = Redux.createStore(reducer, initialState)
 
 function redraw() {
   ReactDOM.render(React.createElement(AlertMonitor, null), document.getElementById('root'));

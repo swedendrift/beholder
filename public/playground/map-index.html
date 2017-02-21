@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Beholder Console</title>
+    <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css" />
+  </head>
+  <body>
+    <div class="ui secondary  menu">
+      <a  class="ui tiny image" id="get-plots" href="#">
+        <img class="ui tiny image" src="imgs/eye.png">
+      </a>
+      <div class="right menu"></div>
+        <a class="ui item" id="signinout">
+          Signout
+        </a>
+    </div>
+    <div id="root"></div>
+    <div id="map"></div>
+    <script src="js/bundle.js"></script>
+    <script src="js/markerclusterer.js"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApanhzM3J3VglQbAU35IDtNr8T5sYNtZU&libraries=drawing,geometry,visualization&callback=initMap"></script>
+  </body>
+</html>
