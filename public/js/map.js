@@ -8,10 +8,6 @@ const ReactDOM = require('react-dom')
 const Redux = require('redux')
 let { List } = require('semantic-ui-react')
 
-<<<<<<< HEAD
-// const NODE = '172.31.11.36'
-=======
->>>>>>> 3a389141d641f1e85027ef9a2c114f865830fe0f
 const NODE = 'localhost'
 
 let map

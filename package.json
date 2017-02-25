@@ -4,7 +4,7 @@
   "description": "The purpose of this application is to give parents access to their child's location",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -R nyan",
     "trans": "browserify -t babelify map.js -o bundle.js"
   },
   "repository": {
