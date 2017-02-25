@@ -1,4 +1,16 @@
-const DEV_NODE = '192.168.0.11'
+const NODE = '192.168.1.169'
+
+var lastLoc = {
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [-122.029345, 37.331020]
+  },
+  "properties": {
+    "speed": 10,
+    "heading": 0
+  }
+}
 
 var app = {
     initialize: function() {
@@ -13,6 +25,7 @@ var app = {
 }
 
 var onGeoSuccess = function (position) {
+  console.log('position')
   var currentLoc = {
     "type": "Feature",
     "geometry": {
@@ -24,18 +37,17 @@ var onGeoSuccess = function (position) {
       "heading": position.coords.heading
     }
   }
-  //  IF ABOVE IS WORKING REMOVE THIS
-  //   lat: position.coords.latitude,
-  //   lng: position.coords.longitude,
-  //   speed: position.coords.speed,
-  //   heading: position.coords.heading
-  // }
+  if (lastLoc.geometry.coordinates[0] !== currentLoc.geometry.coordinates[0] && lastLoc.geometry.coordinates[1] !== currentLoc.geometry.coordinates[1]) {
+    lastLoc = currentLoc
+    postData(currentLoc, 'coords')
+  } else {
+    lastLoc = currentLoc
+  }
 
-  postData(currentLoc, 'coords')
 }
 
 function postData(locationObject, route) {
-  const url = `http://${DEV_NODE}:6969/${route}`
+  const url = `http://${NODE}:6969/${route}`
   fetch(url, {
     method: "POST",
     body: JSON.stringify(locationObject),
@@ -59,15 +71,20 @@ function onGeoError(error) {
 }
 
 app.initialize();
-var watchId
+
+let beaconInterval
 
 document.getElementById("get-position").addEventListener("click", () => {
-  watchId = navigator.geolocation.watchPosition(onGeoSuccess, onGeoError,
-    { enableHighAccuracy: true })
-  }, false)
+  beaconInterval = window.setInterval(() => {
+    let beaconId = navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError,
+      {enableHighAccuracy: true, timeout: 3000, maximumAge: 0})
+    navigator.geolocation.clearWatch(beaconId)
+  }, 10000)
+
+}, false)
 
 
 document.getElementById("clear-watch").addEventListener("click", () => {
-  navigator.geolocation.clearWatch(watchId)
-  console.log(`Cleared watch on watchId: ${watchId}`)
+  clearInterval(beaconInterval)
+  console.log(`Cleared watch on watchId: ${beaconInterval}`)
 }, false)
