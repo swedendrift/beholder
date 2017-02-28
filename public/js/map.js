@@ -146,6 +146,8 @@ var settings = {
 }
 
 window.initMap = () => {
+
+  // create a new map
   let homeLatlng = new google.maps.LatLng(settings.mapCenter.lat, settings.mapCenter.lng)
   let mapOptions = {
     zoom: 11,
@@ -154,12 +156,32 @@ window.initMap = () => {
         mapTypeIds: ['roadmap', 'satellite', 'terrain', 'retro']
     }
   }
-  // create a new map
+
   map = new google.maps.Map(document.getElementById('map'), mapOptions)
   map.data.setStyle(settings.shapeOptions)
+
+  // create the 'retro' styled map
   const styledMapType = new google.maps.StyledMapType(retro, {name: 'retro'})
   map.mapTypes.set('retro', styledMapType);
   map.setMapTypeId('roadmap')
+
+  // create a google geocoder instance
+  const geocoder = new google.maps.Geocoder
+
+  function reverseGeocoder(geocoder, map, latLng) {
+    geocoder.geocode({'location': latLng}, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          const address = results[0]
+          return address
+        } else {
+          return 'Address not found'
+        }
+      } else {
+        console.log('Geocoder failed due to: ' + status)
+      }
+    })
+  }
   // create a drawing manager instance - **replace with data layer
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -170,6 +192,7 @@ window.initMap = () => {
     },
     polygonOptions: settings.shapeOptions
   })
+
   // create a google listener for posting new geofences to mongodb
   google.maps.event.addListener(drawingManager, 'overlaycomplete', (event) => {
     let fences = [] // clear fences array
@@ -179,6 +202,7 @@ window.initMap = () => {
       let point = [element.lng(), element.lat()]
       points.push(point)
     })
+
     // add the first point to the end to close the polygon
     //  winding is automatic with GeoJSON -- test and remove drawingManager
     const closePoly = points[0]
@@ -204,11 +228,11 @@ window.initMap = () => {
   refreshView()
   fetchCoordinates()
 
-  google.maps.event.addListener(map, "rightclick", function(event) {
-      var lat = event.latLng.lat()
-      var lng = event.latLng.lng()
-      alert("Lat=" + lat + "; Lng=" + lng)
-  })
+  // google.maps.event.addListener(map, "rightclick", function(event) {
+  //     var lat = event.latLng.lat()
+  //     var lng = event.latLng.lng()
+  //     alert("Lat=" + lat + "; Lng=" + lng)
+  // })
 }
 /* END OF INITMAP */
 
@@ -304,6 +328,7 @@ function handleMarkerData(geoJSONdata) {
 }
 
 function checkOob(coord) {
+  console.log(coord)
   let myFences = []
   settings.geofences.forEach((element) => {
     var polyFence = new google.maps.Polygon({paths: element})
@@ -312,7 +337,8 @@ function checkOob(coord) {
   var googleLatLng = new google.maps.LatLng(coord)
   myFences.forEach((polygon) => {
       if(google.maps.geometry.poly.containsLocation(googleLatLng, polygon)) {
-        store.dispatch({ type: 'ALERT_RECEIVED',  alerts: 'Out of bounds detected near ADDRESS' })
+        const alertAddress = reverseGeocoder(geocoder, map, coord)
+        store.dispatch({ type: 'ALERT_RECEIVED',  alerts: `Out of bounds detected near ${alertAddress}` })
       }
   })
 }
@@ -348,7 +374,6 @@ function reducer(state, action) {
       return Object.assign({}, state, {
         // take the old alerts + new alert and return a new array
         alerts: [...state.alerts, action.alerts],
-        // alerts: action.alerts,
         count: state.count + 1
       })
     case 'ALERT_CLEARED':

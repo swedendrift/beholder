@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha -R nyan",
-    "trans": "browserify -t babelify map.js -o bundle.js"
+    "watch": "watchify -t babelify public/js/map.js -o public/js/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
     "babel-plugin-transform-react-jsx": "^6.22.0",
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "watchify": "^3.9.0"
   }
 }
