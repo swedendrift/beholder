@@ -56306,6 +56306,7 @@ let { List } = require('semantic-ui-react');
 const NODE = 'localhost';
 
 let map;
+let geocoder;
 
 const retro = [{ elementType: 'geometry', stylers: [{ color: '#ebe3cd' }] }, { elementType: 'labels.text.fill', stylers: [{ color: '#523735' }] }, { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f1e6' }] }, {
   featureType: 'administrative',
@@ -56435,22 +56436,8 @@ window.initMap = () => {
   map.setMapTypeId('roadmap');
 
   // create a google geocoder instance
-  const geocoder = new google.maps.Geocoder();
+  geocoder = new google.maps.Geocoder();
 
-  function reverseGeocoder(geocoder, map, latLng) {
-    geocoder.geocode({ 'location': latLng }, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          const address = results[0];
-          return address;
-        } else {
-          return 'Address not found';
-        }
-      } else {
-        console.log('Geocoder failed due to: ' + status);
-      }
-    });
-  }
   // create a drawing manager instance - **replace with data layer
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -56497,11 +56484,11 @@ window.initMap = () => {
   refreshView();
   fetchCoordinates();
 
-  // google.maps.event.addListener(map, "rightclick", function(event) {
-  //     var lat = event.latLng.lat()
-  //     var lng = event.latLng.lng()
-  //     alert("Lat=" + lat + "; Lng=" + lng)
-  // })
+  google.maps.event.addListener(map, "rightclick", function (event) {
+    var lat = event.latLng.lat();
+    var lng = event.latLng.lng();
+    alert("Lat=" + lat + "; Lng=" + lng);
+  });
 };
 /* END OF INITMAP */
 
@@ -56596,8 +56583,22 @@ function handleMarkerData(geoJSONdata) {
   const markerCluster = new MarkerClusterer(map, markers, mcOptions);
 }
 
+function reverseGeocoder(geocoder, map, latLng) {
+  geocoder.geocode({ 'location': latLng }, (results, status) => {
+    if (status === 'OK') {
+      if (results[0]) {
+        const address = results[0];
+        return address;
+      } else {
+        return 'Address not found';
+      }
+    } else {
+      console.log('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
 function checkOob(coord) {
-  console.log(coord);
   let myFences = [];
   settings.geofences.forEach(element => {
     var polyFence = new google.maps.Polygon({ paths: element });
@@ -56608,6 +56609,7 @@ function checkOob(coord) {
     if (google.maps.geometry.poly.containsLocation(googleLatLng, polygon)) {
       const alertAddress = reverseGeocoder(geocoder, map, coord);
       store.dispatch({ type: 'ALERT_RECEIVED', alerts: `Out of bounds detected near ${alertAddress}` });
+      console.log(store.getState());
     }
   });
 }
@@ -56628,7 +56630,6 @@ document.getElementById('get-plots').addEventListener('click', () => {
 const initialState = {
   loggedIn: false,
   alerts: [],
-  count: 0,
   alertBoxOpen: true,
   preferenceBoxOpen: false,
   settingBoxOpen: false,
@@ -56640,8 +56641,7 @@ function reducer(state, action) {
     case 'ALERT_RECEIVED':
       return Object.assign({}, state, {
         // take the old alerts + new alert and return a new array
-        alerts: [...state.alerts, action.alerts],
-        count: state.count + 1
+        alerts: [...state.alerts, action.alerts]
       });
     case 'ALERT_CLEARED':
       return Object.assign({}, state, {
@@ -56681,7 +56681,6 @@ function accordion(elementState, level) {
 }
 
 function AlertMonitor() {
-  const count = store.getState().count;
   const alerts = store.getState().alerts;
   const alertBoxOpen = store.getState().alertBoxOpen;
   const preferenceBoxOpen = store.getState().preferenceBoxOpen;
