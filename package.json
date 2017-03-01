@@ -5,8 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "mongo": "~/mongo/bin/mongod -dbpath ~/mongo-data",
-    "run":  "rm logs/server.log\n nodemon",
-    "test": "mocha -R nyan",
+    "run": "nodemon server/server.js --exec 'npm test'",
+    "test": "mocha **/*.test.js -R nyan",
     "watch": "watchify -t babelify server/src/map.js -o server/public/js/bundle.js"
   },
   "repository": {
@@ -48,6 +48,7 @@
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "nodemon": "^1.11.0",
+    "supertest": "^3.0.0",
     "watchify": "^3.9.0"
   }
 }
