@@ -94,12 +94,13 @@ app.post('/fences', jsonParser, (req, res) => {
 })
 
 // validation middleware to ensure that the incomign data is correct
-app.use('/coords', (req, res, next) => {
-  if (req.method ==! 'POST' && req.body) return next()
+app.use('/coords', jsonParser,  (req, res, next) => {
+  const data = req.body[0]
+  if (req.method ==! 'POST' && data) return null
     // Perform  validations.
   if (data.geometry.type !== 'Point') return null
     // Validation failed
-  if (err) return res.sendStatus(400)
+  if (error) return res.sendStatus(400)
     // Validation passed.
     return next();
 })
@@ -160,6 +161,10 @@ app.post('/coords', jsonParser, (req, res) => {
   })
 })
 
+app.get('/', (req, res) => {
+  res.send('five nines')
+})
+
 
 app.use((req, res) => {
   res.status(404)
@@ -170,7 +175,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-
-var validator = function(req, res, next) {
-
-}
+module.exports.app = app
