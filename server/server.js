@@ -20,17 +20,6 @@ app.use(logger('combined', {stream: accessLogStream}))
 app.use(bodyParser.urlencoded({extended: false}))
 
 
-// error-handling middlewares
-app.use((error, req, res, next) => {
-    console.log(error)
-    next(error)
-})
-app.use((error, req, res, next) => {
-  res.status(500)
-  res.send("Internal server error")
-})
-
-
 // static path set to public
 app.use(express.static(path.join(__dirname, '/public')))
 
@@ -163,6 +152,17 @@ app.post('/coords', jsonParser, (req, res) => {
 
 app.get('/', (req, res) => {
   res.send('five nines')
+})
+
+// error-handling middlewares
+app.use((error, req, res, next) => {
+    console.log(error)
+    next(error)
+})
+
+app.use((error, req, res, next) => {
+  res.status(500)
+  res.send("Internal server error")
 })
 
 
