@@ -5,8 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "mongo": "~/mongo/bin/mongod -dbpath ~/mongo-data",
-    "run": "nodemon server/server.js --exec 'npm test'",
-    "test": "mocha **/*.test.js -R nyan",
+    "test": "mocha **/*.test.js",
     "watch": "watchify -t babelify server/src/map.js -o server/public/js/bundle.js"
   },
   "repository": {

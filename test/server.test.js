@@ -31,6 +31,7 @@ describe('dummyTests', () => {
   })
 })
 
+
 describe('server', () => {
 
   describe('GET /coords', function() {
@@ -53,4 +54,13 @@ describe('server', () => {
     })
   })
 
+  describe('POST /fences', function() {
+    it('responds with the string JSON data', (done) => {
+      request(app)
+        .get('/fences')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+    })
+  })
 })

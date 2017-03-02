@@ -55,7 +55,6 @@ app.get('/fences', (req, res) => {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify(docs))
         db.close()
-        console.log('Disconnected from the MongoDB server')
       }, (error) => {
         console.log('Unable to fetch data', error)
       })
@@ -71,65 +70,51 @@ app.post('/fences', jsonParser, (req, res) => {
         console.log('Connected to the MongoDB server')
       }
       db.collection('geospatial').insertOne(data, (error, result) => {
-        if (error) {
-            return console.log('Unable to insert data', error)
-        }
-        db.close()
-        console.log('Disconnected from the MongoDB server')
+          if (error) {
+              return console.log('Unable to insert data', error)
+          }
+          db.close()
       })
 
   })
   res.sendStatus(201)
 })
 
-// validation middleware to ensure that the incomign data is correct
-app.use('/coords', jsonParser,  (req, res, next) => {
-  const data = req.body[0]
-  if (req.method ==! 'POST' && data) return null
-    // Perform  validations.
-  if (data.geometry.type !== 'Point') return null
-    // Validation failed
-  if (error) return res.sendStatus(400)
-    // Validation passed.
-    return next();
-})
+app.post('/coords', jsonParser, (req, res, next) => {
+  const data = req.body
+  var newPoint
 
-//  alerting middleware to do realtime OOB checking
-app.use(jsonParser, (req, res, next) => {
-  const data = req.body[0]
+  if (data.geometry.type === 'Point') {
+    newPoint = {'type': data.geometry.type, 'coordinates': data.geometry.coordinates}
+  } else {
+    return null
+  }
+  console.log(data.geometry.type + ' ' + data.geometry.coordinates)
+
   MongoClient.connect(MONGO, (error, db) => {
     if (error) {
       console.log('Unable to connect to MongoDB server')
     } else {
       console.log('Connected to the MongoDB server')
     }
+    // if its true then alert, console is a placeholder for added functionality
     let matches = []
-    db.collection('geospatial').find({
-      geometry: {
-        $geoIntersects: {
-          $geometry: data
-        }
-      }
-    }).toArray().then((docs) => {
+    db.collection('geospatial').find({geometry: {$geoIntersects: {$geometry: newPoint}}}).toArray().then((docs) => {
       Object.assign(matches, docs)
       if (matches[0] != null) {
-        // placeholder for features
-        console.log('ALERT OOB DETECTED! ' + data)
-        db.close()
-        console.log('Disconnected from the MongoDB server')
-        return next()
+        console.log('ALERT OOB DETECTED! ' + newPoint)
+        return next
       } else {
-        console.log('New point is in bounds ' + data)
-        db.close()
-        console.log('Disconnected from the MongoDB server')
-        return next()
+        console.log('New point is in bounds ' + newPoint)
+        return next
       }
     })
   })
+  res.sendStatus(201)
 })
 
 app.post('/coords', jsonParser, (req, res) => {
-  const data = req.body[0]
+  const data = req.body
   MongoClient.connect(MONGO, (error, db) => {
     if (error) {
       console.log('Unable to connect to MongoDB server')
@@ -145,13 +130,8 @@ app.post('/coords', jsonParser, (req, res) => {
     })
     db.close()
     console.log('Disconnected from the MongoDB server')
-
-    res.sendStatus(201)
   })
-})
-
-app.get('/', (req, res) => {
-  res.send('five nines')
+  res.sendStatus(201)
 })
 
 // error-handling middlewares
