@@ -166,9 +166,6 @@ window.initMap = () => {
   map.mapTypes.set('retro', styledMapType);
   map.setMapTypeId('roadmap')
 
-  // create a google geocoder instance
-  geocoder = new google.maps.Geocoder
-
   // create a drawing manager instance - **replace with data layer
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -312,21 +309,6 @@ function handleMarkerData(geoJSONdata) {
     imagePath: 'imgs/m'}
   // create a new cluster marker manager
   const markerCluster = new MarkerClusterer(map, markers, mcOptions)
-}
-
-function reverseGeocoder(geocoder, map, latLng) {
-  geocoder.geocode({'location': latLng}, (results, status) => {
-    if (status === 'OK') {
-      if (results[0]) {
-        const address = results[0]
-        return address
-      } else {
-        return 'Address not found'
-      }
-    } else {
-      console.log('Geocoder failed due to: ' + status)
-    }
-  })
 }
 
 function checkOob(coord) {

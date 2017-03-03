@@ -1,8 +1,9 @@
-/*eslint-disable no-console */
-const
-      MONGO = 'mongodb://localhost:27017/beholder',
+/*eslint-disable no-console global google*/
+
+const MONGO = 'mongodb://localhost:27017/beholder',
       bodyParser = require('body-parser'),
       {MongoClient} = require('mongodb'),
+      {googleServer} = require('./src/keys'),
       PORT = process.env.PORT || 6969,
       jsonParser = bodyParser.json(),
       express = require('express'),
@@ -26,37 +27,25 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 app.get('/coords', (req, res) => {
   const {MongoClient} = require('mongodb')
-  MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
-      if (error) {
-        console.log('Unable to connect to MongoDB server')
-      } else {
-        console.log('Connected to the MongoDB server')
-      }
+  MongoClient.connect(MONGO, (error, db) => {
       db.collection('geospatial').find().toArray().then((docs) => {
         res.send(docs)
         db.close()
-        console.log('Disconnected from the MongoDB server')
       }, (error) => {
-        console.log('Unable to fetch data', error)
+        res.send('Unable to fetch data')
       })
   })
 })
 
 app.get('/fences', (req, res) => {
   const {MongoClient} = require('mongodb')
-  MongoClient.connect('mongodb://localhost:27017/beholder', (error, db) => {
-      if (error) {
-        console.log('Unable to connect to MongoDB server')
-      } else {
-        console.log('Connected to the MongoDB server')
-      }
+  MongoClient.connect(MONGO, (error, db) => {
       db.collection('geospatial').find({'geometry.type':'Polygon'}).toArray().then((docs) => {
-        console.log(docs)
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify(docs))
         db.close()
       }, (error) => {
-        console.log('Unable to fetch data', error)
+        res.send('Unable to fetch data')
       })
   })
 })
@@ -64,14 +53,9 @@ app.get('/fences', (req, res) => {
 app.post('/fences', jsonParser, (req, res) => {
   const data = req.body[0]
   MongoClient.connect(MONGO, (error, db) => {
-      if (error) {
-        console.log('Unable to connect to MongoDB server')
-      } else {
-        console.log('Connected to the MongoDB server')
-      }
       db.collection('geospatial').insertOne(data, (error, result) => {
           if (error) {
-              return console.log('Unable to insert data', error)
+            res.send('Unable to insert data')
           }
           db.close()
       })
@@ -89,19 +73,19 @@ app.post('/coords', jsonParser, (req, res, next) => {
   } else {
     return null
   }
-  console.log(data.geometry.type + ' ' + data.geometry.coordinates)
 
   MongoClient.connect(MONGO, (error, db) => {
-    if (error) {
-      console.log('Unable to connect to MongoDB server')
-    } else {
-      console.log('Connected to the MongoDB server')
-    }
     // if its true then alert, console is a placeholder for added functionality
     let matches = []
-    db.collection('geospatial').find({geometry: {$geoIntersects: {$geometry: newPoint}}}).toArray().then((docs) => {
-      Object.assign(matches, docs)
+    db.collection('geospatial').find({geometry: {
+      $geoIntersects: {
+        $geometry: newPoint
+        }
+      }
+    }).toArray().then((doc) => {
+      Object.assign(matches, doc)
       if (matches[0] != null) {
+        // use async await here to call google //  geocode the OOB coordinate `https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=${googleServer}`
         console.log('ALERT OOB DETECTED! ' + newPoint)
         return next
       } else {
@@ -116,20 +100,14 @@ app.post('/coords', jsonParser, (req, res, next) => {
 app.post('/coords', jsonParser, (req, res) => {
   const data = req.body
   MongoClient.connect(MONGO, (error, db) => {
-    if (error) {
-      console.log('Unable to connect to MongoDB server')
-    } else {
-      console.log('Connected to the MongoDB server')
-    }
     db.collection('geospatial').insertOne(data, (error, result) => {
       if (error) {
-          return console.log('Unable to insert data', error)
+          res.send('Unable to insert data')
       } else {
         return result
       }
     })
     db.close()
-    console.log('Disconnected from the MongoDB server')
   })
   res.sendStatus(201)
 })
