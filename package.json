@@ -2,10 +2,12 @@
   "name": "beholder",
   "version": "1.0.0",
   "description": "The purpose of this application is to give parents access to their child's location",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "test": "mocha -R nyan",
-    "trans": "browserify -t babelify map.js -o bundle.js"
+    "nodetest": "nodemon --exec 'mocha **/*.test.js'",
+    "mongo": "~/mongo/bin/mongod -dbpath ~/mongo-data",
+    "test": "mocha **/*.test.js",
+    "watch": "watchify -t babelify server/src/map.js -o server/public/js/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,8 @@
     "express.js",
     "mongodb",
     "react",
-    "redux"
+    "redux",
+    "Google Maps"
   ],
   "author": "Erick Lee",
   "license": "ISC",
@@ -43,6 +46,13 @@
     "babel-plugin-transform-react-jsx": "^6.22.0",
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
-    "nodemon": "^1.11.0"
+    "chai": "^3.5.0",
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "remove": "^0.1.5",
+    "rewire": "^2.5.2",
+    "supertest": "^3.0.0",
+    "watchify": "^3.9.0"
   }
 }
