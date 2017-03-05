@@ -320,9 +320,7 @@ function checkOob(coord) {
   var googleLatLng = new google.maps.LatLng(coord)
   myFences.forEach((polygon) => {
       if(google.maps.geometry.poly.containsLocation(googleLatLng, polygon)) {
-        const alertAddress = reverseGeocoder(geocoder, map, coord)
-        store.dispatch({ type: 'ALERT_RECEIVED',  alerts: `Out of bounds detected near ${alertAddress}` })
-        console.log(store.getState())
+        store.dispatch({ type: 'ALERT_RECEIVED',  alerts: `Out of bounds detected`})
       }
   })
 }

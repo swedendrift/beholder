@@ -30,7 +30,6 @@
   },
   "homepage": "https://github.com/swedendrift/beholder#readme",
   "dependencies": {
-    "@google/maps": "^0.3.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mongodb": "^2.2.20",
@@ -53,8 +52,6 @@
     "nodemon": "^1.11.0",
     "remove": "^0.1.5",
     "rewire": "^2.5.2",
-    "sinon": "^1.17.7",
-    "sinon-chai": "^2.8.0",
     "supertest": "^3.0.0",
     "watchify": "^3.9.0"
   }
