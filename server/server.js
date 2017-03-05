@@ -9,6 +9,7 @@ const MONGO = 'mongodb://localhost:27017/beholder',
       jsonParser = bodyParser.json(),
       express = require('express'),
       logger = require('morgan'),
+      axios = require('axios'),
       path = require('path'),
       fs = require('fs'),
       app = express()
@@ -70,14 +71,15 @@ app.post('/fences', jsonParser, (req, res) => {
 app.post('/coords', jsonParser, (req, res, next) => {
   let newPoint
   const data = req.body
-  const coords = newPoint.coordinates[1] + ',' + newPoint.coordinates[0]
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${googleServer}`
 
   if (data.geometry.type === 'Point') {
     newPoint = {'type': data.geometry.type, 'coordinates': data.geometry.coordinates}
   } else {
     return null
   }
+
+  const coords = newPoint.coordinates[1] + ',' + newPoint.coordinates[0]
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords}&key=${googleServer}`
 
   MongoClient.connect(MONGO, (error, db) => {
     // if its true then alert, console is a placeholder for added functionality
@@ -87,19 +89,23 @@ app.post('/coords', jsonParser, (req, res, next) => {
         $geometry: newPoint
         }
       }
-    }).toArray().then((docs) => {
-      Object.assign(matches, docs)
+    }).toArray().then((doc) => {
+      Object.assign(matches, doc)
       if (matches[0] != null) {
-        axios.get()
-
-        asyncAwaitGeocode(url)
-        console.log('ALERT OOB DETECTED! ')
+        axios.get(url)
+        .then((response) => {
+          console.log(response.data.results[0].formatted_address)
+          console.log('ALERT OOB DETECTED!')
+        })
+        .catch((error) => {
+           console.log(error)
+        })
         return next
       } else {
-        console.log('New point is in bounds '  + console.log(address))
         return next
       }
     })
+    db.close()
   })
   res.sendStatus(201)
 })
