@@ -2,7 +2,7 @@
   "name": "beholder",
   "version": "1.0.0",
   "description": "The purpose of this application is to give parents access to their child's location",
-  "main": "server/server.js",
+  "main": "server.js",
   "scripts": {
     "nodetest": "nodemon --exec 'mocha **/*.test.js'",
     "mongo": "~/mongo/bin/mongod -dbpath ~/mongo-data",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/swedendrift/beholder#readme",
   "dependencies": {
+    "axios": "^0.15.3",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mongodb": "^2.2.20",

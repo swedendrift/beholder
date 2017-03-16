@@ -8,3 +8,5 @@ node_modules
 
 playground/
 aws_keys/
+
+bundle.js

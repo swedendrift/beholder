@@ -32,7 +32,7 @@ app.get('/coords', (req, res) => {
       db.collection('geospatial').find().toArray().then((docs) => {
         res.send(docs)
         db.close()
-      }, (error) => {
+      }, (err) => {
         res.send('Unable to fetch data')
       })
   })
@@ -45,7 +45,7 @@ app.get('/fences', (req, res) => {
         res.setHeader('Content-Type', 'application/json')
         res.send(JSON.stringify(docs))
         db.close()
-      }, (error) => {
+      }, (err) => {
         res.send('Unable to fetch data')
       })
   })
@@ -54,8 +54,8 @@ app.get('/fences', (req, res) => {
 app.post('/fences', jsonParser, (req, res) => {
   const data = req.body[0]
   MongoClient.connect(MONGO, (error, db) => {
-      db.collection('geospatial').insertOne(data, (error, result) => {
-          if (error) {
+      db.collection('geospatial').insertOne(data, (err, res) => {
+          if (err) {
             res.send('Unable to insert data')
           }
           db.close()
