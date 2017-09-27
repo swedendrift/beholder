@@ -7,7 +7,9 @@
     "nodetest": "nodemon --exec 'mocha **/*.test.js'",
     "mongo": "~/mongo/bin/mongod -dbpath ~/mongo-data",
     "test": "mocha **/*.test.js",
-    "watch": "watchify -t babelify server/src/map.js -o server/public/js/bundle.js"
+    "watch": "watchify -t babelify server/src/map.js -o server/public/js/bundle.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -40,7 +42,8 @@
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "semantic-ui-react": "^0.64.8",
-    "whatwg-fetch": "^2.0.1"
+    "whatwg-fetch": "^2.0.1",
+    "snyk": "^1.41.1"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -55,5 +58,6 @@
     "rewire": "^2.5.2",
     "supertest": "^3.0.0",
     "watchify": "^3.9.0"
-  }
+  },
+  "snyk": true
 }
