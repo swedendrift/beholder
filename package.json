@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/swedendrift/beholder#readme",
   "dependencies": {
-    "axios": "^0.15.3",
+    "axios": "^0.18.1",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mongodb": "^2.2.20",
